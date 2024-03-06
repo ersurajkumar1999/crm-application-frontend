@@ -1,7 +1,5 @@
-import React from 'react'
 import ImageSlider from '../components/ImageSlider'
-import {
-  Typography, Grid, CardContent, Card
+import { Grid, CardContent, Card
 } from '@mui/material';
 import ServiceSection from '../components/ServiceSection';
 import AboutSection from '../components/AboutSection';
