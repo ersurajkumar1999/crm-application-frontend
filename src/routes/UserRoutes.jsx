@@ -1,15 +1,17 @@
-import HomeLayout from '../Home/Layout';
+
 import Home from '../Home/Home';
 import About from '../Home/About';
 import Contact from '../Home/Contact';
 import Page404 from '../Home/Page404';
+import UserLayout from '../User/UserLayout';
+import Dashboard from '../User/Dashboard';
 
 
-const HomeRoutes = {
+const UserRoutes = {
     path: '/',
-    element: <HomeLayout />,
+    element: <UserLayout />,
     children: [
-        { path: '/', element: <Home /> },
+        { path: '/dashboard', element: <Dashboard /> },
         { path: '/home', element: <Home /> },
         { path: '/about', element: <About /> },
         { path: '/contact', element: <Contact /> },
@@ -18,4 +20,4 @@ const HomeRoutes = {
 };
 
 
-export default HomeRoutes;
+export default UserRoutes;
