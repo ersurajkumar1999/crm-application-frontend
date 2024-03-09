@@ -7,7 +7,7 @@ import ChatUserInformationSection from './components/ChatUserInformationSection'
 
 
 const ChatHome = () => {
-    const activeUser = true;
+    const activeUser = false;
     return (
         <Container sx={{ marginTop: 1 }} maxWidth="xl">
             <Box py={5} display={`flex`} flexDirection={`column`} alignItems={`center`}>
