@@ -1,6 +1,6 @@
 // Users end points 
-const AUTH_LOGIN = "login";
-const AUTH_SIGNUP = "register";
+const AUTH_LOGIN = "auth/login";
+const AUTH_SIGNUP = "auth/signup";
 
 // Common end points
 const PROFILE = "profile";

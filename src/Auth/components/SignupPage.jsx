@@ -1,12 +1,3 @@
-// import React from 'react'
-
-// const SignupPage = () => {
-//     return (
-//         <div>SignupPage</div>
-//     )
-// }
-
-// export default SignupPage
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -22,7 +13,7 @@ import Container from '@mui/material/Container';
 import { useFormik } from 'formik';
 import { signUpSchema } from '../../schemas/FormSchemas'; // Import your validation schema here
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
-// import { userSignUp } from '../../../services/ApiService';
+import { userSignUp } from '../../services/ApiService';
 import { useState } from 'react';
 import { CircularProgress } from '@mui/material';
 // const theme = createTheme();
@@ -33,10 +24,10 @@ function SignupPage() {
         success: null
     });
     const initialValues = {
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
+        firstName: 'Dev',
+        lastName: 'suraj',
+        email: 'devsuraj@gmail.com',
+        password: 'devsuraj@',
         allowExtraEmails: false,
     };
     const {
