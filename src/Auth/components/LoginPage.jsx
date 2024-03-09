@@ -10,15 +10,20 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { userLogin } from '../../services/ApiService';
+import { SuccessMessage, ErrorMessage } from '../../components/common/alertMessages';
 const LoginPage = () => {
     const navigate = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
+    const [alertMessages, setAlertMessages] = useState({
+        error: null,
+        success: null
+    });
     const initialValues = {
-        email: "spandev23@gmail.com",
-        password: "spandev23@",
+        email: "devsuraj@gmail.com",
+        password: "devsuraj@",
         rememberMe: false,
     };
     const {
@@ -32,6 +37,7 @@ const LoginPage = () => {
         initialValues,
         validationSchema: loginSchema,
         onSubmit: async (values, { setSubmitting }) => {
+            handleClearErrorMessage();
             const data = {
                 email: values.email,
                 password: values.password,
@@ -41,26 +47,35 @@ const LoginPage = () => {
                 setSubmitting(true);
                 const response = await userLogin(data);
                 // This is check Only Api Response 
-                if (response.status) {
-                    if (response?.data?.success) {
-                        resetForm();
-                        storeDataToStorage(response?.data.data);
-                        dispatch(setSuccess(response?.data?.message));
-                        navigate('/');
-                    } else {
-                        dispatch(setError(response?.data?.data[0] ?? "Something went wrong!"));
-                    }
-                } else {
-                    dispatch(setError(response?.data?.message ?? "Something went wrong!"));
+                if (!response.status) {
+                    setAlertMessages(prevState => ({
+                        ...prevState,
+                        error: response?.data?.message
+                    }));
                 }
+                if(!response.data.status){
+                    setAlertMessages(prevState => ({
+                        ...prevState,
+                        error: response?.data?.message
+                    }));
+                }
+                setAlertMessages(prevState => ({
+                    ...prevState,
+                    success: response?.data?.message
+                }));
+                console.log("response==>",response.data.data);
             } catch (error) {
-                dispatch(setError(error))
+                // dispatch(setError(error))
             } finally {
                 setSubmitting(false);
             }
         },
     });
 
+    const handleClearErrorMessage = () => setAlertMessages({
+        error: null,
+        success: null
+    });
     return (
         <Container component="main" maxWidth="sm" >
             <Box
@@ -81,7 +96,12 @@ const LoginPage = () => {
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
-
+                {alertMessages.error && (
+                    <ErrorMessage message={alertMessages.error} handlonCloseeMessage={handleClearErrorMessage} />
+                )}
+                {alertMessages.success && (
+                    <SuccessMessage message={alertMessages.success} handlonCloseeMessage={handleClearErrorMessage} />
+                )}
                 <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                     <TextField
                         id="email"
