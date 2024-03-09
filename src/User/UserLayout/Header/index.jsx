@@ -1,4 +1,3 @@
-import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -8,146 +7,101 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import { Stack, useMediaQuery } from '@mui/material';
+
+import { SlMenu } from "react-icons/sl";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
+import { CiSettings } from "react-icons/ci";
+import { CgProfile } from "react-icons/cg";
+import { MdOutlineManageAccounts } from "react-icons/md";
+
+import { Divider, ListItemIcon, Stack } from '@mui/material';
 import { Link } from 'react-router-dom';
+import Sidebar from '../Sidebar';
+import { useState } from 'react';
 
-const pages = ['Home', 'About', 'Contact'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+function ResponsiveAppBar() {
+    const [anchorElUser, setAnchorElUser] = useState(null);
+    const [open, setOpen] = useState(false);
 
-const Header = () => {
-    const isSmallScreen = useMediaQuery('(max-width:600px)');
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const isLoggedIn = false;
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
-    const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
-    };
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
 
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
+    const logo = "https://static.canva.com/web/images/12487a1e0770d29351bd4ce4f87ec8fe.svg";
+    const profile = "https://i.pravatar.cc/150?img=3";
+
+
+    const toggleDrawer = (newOpen) => setOpen(newOpen);
+    const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
+    const handleCloseUserMenu = () => setAnchorElUser(null);
 
     return (
-        <AppBar position="static">
-            <Container maxWidth="xl">
-                <Toolbar disableGutters>
-                    <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component={Link}
-                        to={'/'}
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        LOGO
-                    </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
-                            color="inherit"
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
+        <>
+            <AppBar position="fixed">
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            onClick={() => toggleDrawer(true)}
+                            href="#app-bar-with-responsive-menu"
                             sx={{
-                                display: { xs: 'block', md: 'none' },
+                                mr: 2,
+                                display: { xs: 'none', md: 'flex' },
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.3rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
+                                alignItems: 'center',
                             }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
-                    </Box>
-                    <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href="#app-bar-with-responsive-menu"
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'flex', md: 'none' },
-                            flexGrow: 1,
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        LOGO
-                    </Typography>
-                    <Box sx={{ flexGrow: 1, position: 'absolute', right: '25%', display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
-                            <Button
-                                component={Link}
-                                to={page.toLocaleLowerCase()}
-                                title={page}
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'black', display: 'block' }}
+                            <SlMenu onClick={() => toggleDrawer(true)} sx={{ display: { xs: 'none', md: 'flex' } }} />
+                            <img src={logo} alt='...' style={{ marginLeft: '15px' }} />
+                        </Typography>
+                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={() => toggleDrawer(true)}
+                                color="inherit"
                             >
-                                {page}
-                            </Button>
-                        ))}
-                    </Box>
-
-                    {!isLoggedIn &&
-                        <Stack direction="row" spacing={2} sx={{ ml: isSmallScreen ? 0 : 3, position: 'absolute', right: 0 }} >
-                            <Button component={Link} to="auth/login" variant="contained" color="secondary">
-                                LOGIN
-                            </Button>
-                            <Button component={Link} to="auth/signup" variant="outlined" color="secondary" sx={{ display: { xs: 'none', md: 'block' } }}>
-                                SIGNUP
-                            </Button>
-                        </Stack>
-                    }
-
-                    {
-                        isLoggedIn &&
-                        <Box sx={{ flexGrow: 0, position: 'absolute', right: 0 }}>
+                                <MenuIcon />
+                            </IconButton>
+                        </Box>
+                        <Typography
+                            component={Link}
+                            to="/"
+                            sx={{
+                                mr: 2,
+                                display: { xs: 'flex', md: 'none' },
+                                flexGrow: 1,
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.3rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
+                            }}
+                        >
+                            <img src={logo} alt='...' />
+                        </Typography>
+                        <Box sx={{ flexGrow: 0, ml: 3, position: 'absolute', right: '5%' }}>
+                            <Stack direction="row" spacing={2} sx={{ float: 'right', display: { xs: 'none', md: 'block' } }}>
+                                <IconButton edge="start" size="medium" color="inherit" aria-label="menu">
+                                    <IoMdNotificationsOutline />
+                                </IconButton>
+                                <IconButton edge="start" size="medium" color="inherit" aria-label="menu">
+                                    <IoSettingsOutline />
+                                </IconButton>
+                            </Stack>
+                        </Box>
+                        <Box sx={{ flexGrow: 0, ml: 3, position: 'absolute', right: '0' }}>
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                    <Avatar alt="Remy Sharp" src={profile} />
                                 </IconButton>
                             </Tooltip>
                             <Menu
@@ -166,18 +120,45 @@ const Header = () => {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
                             >
-                                {settings.map((setting) => (
-                                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center">{setting}</Typography>
-                                    </MenuItem>
-                                ))}
+                                <Stack direction={`row`} gap={2} flex={true} alignItems={'center'} justifyItems={'center'} p={2}>
+                                    <Avatar alt="Remy Sharp" src={profile} />
+                                    <Stack>
+                                        <Typography variant="body" fontWeight={'bold'}>Dev Span</Typography>
+                                        <Typography variant="caption">spandev23@gmail.com</Typography>
+                                    </Stack>
+                                </Stack>
+                                <Divider />
+                                <MenuItem component={Link} to="/profile" onClick={handleCloseUserMenu}>
+                                    <ListItemIcon >
+                                        <CgProfile fontSize={'40px'} />
+                                    </ListItemIcon>
+                                    <Typography marginLeft={'15px'}>Profile</Typography>
+                                </MenuItem>
+                                <MenuItem component={Link} to="/profile" onClick={handleCloseUserMenu}>
+                                    <ListItemIcon >
+                                        <MdOutlineManageAccounts fontSize={'40px'} />
+                                    </ListItemIcon>
+                                    <Typography marginLeft={'15px'}> My account</Typography>
+                                </MenuItem>
+                                <MenuItem component={Link} to="/profile" onClick={handleCloseUserMenu}>
+                                    <ListItemIcon >
+                                        <CiSettings fontSize={'40px'} />
+                                    </ListItemIcon>
+                                    <Typography marginLeft={'15px'}> Settings</Typography>
+                                </MenuItem>
+                                <MenuItem onClick={handleCloseUserMenu} >
+                                    <ListItemIcon >
+                                        <IoLogOutOutline fontSize={'40px'} />
+                                    </ListItemIcon>
+                                    <Typography marginLeft={'15px'}> Logout</Typography>
+                                </MenuItem>
                             </Menu>
                         </Box>
-                    }
-
-                </Toolbar>
-            </Container>
-        </AppBar>
+                    </Toolbar>
+                </Container>
+            </AppBar>
+            <Sidebar open={open} toggleDrawer={toggleDrawer} />
+        </>
     );
 }
-export default Header;
+export default ResponsiveAppBar;

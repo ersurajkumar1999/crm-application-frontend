@@ -1,10 +1,11 @@
-
-import Home from '../Home/Home';
-import About from '../Home/About';
-import Contact from '../Home/Contact';
 import Page404 from '../Home/Page404';
 import UserLayout from '../User/UserLayout';
 import Dashboard from '../User/Dashboard';
+import Profile from '../User/Profile';
+import Feed from '../User/Feed';
+import MyNetwork from '../User/MyNetwork';
+import ChatHome from '../User/ChatHome';
+import ManagerInvitation from '../User/ManagerInvitation';
 
 
 const UserRoutes = {
@@ -12,9 +13,11 @@ const UserRoutes = {
     element: <UserLayout />,
     children: [
         { path: '/dashboard', element: <Dashboard /> },
-        { path: '/home', element: <Home /> },
-        { path: '/about', element: <About /> },
-        { path: '/contact', element: <Contact /> },
+        { path: '/profile', element: <Profile /> },
+        { path: '/feed', element: <Feed /> },
+        { path: '/mynetwork', element: <MyNetwork /> },
+        { path: '/manager-invitation', element: <ManagerInvitation /> },
+        { path: '/chat', element: <ChatHome /> },
         { path: '*', element: <Page404 /> },
     ]
 };

@@ -1,0 +1,55 @@
+import { Avatar, Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, Typography } from '@mui/material'
+import React from 'react'
+import { BiHome, BiFolderPlus, BiGridAlt, BiHeartCircle } from "react-icons/bi";
+import { CgProfile } from "react-icons/cg";
+import { FaNetworkWired } from 'react-icons/fa';
+import { IoLogOutOutline } from 'react-icons/io5';
+import { MdChat, MdLocalPostOffice } from 'react-icons/md';
+import { Link } from 'react-router-dom';
+const Sidebar = ({ open, toggleDrawer }) => {
+
+    const profile = "https://i.pravatar.cc/150?img=3";
+    const menus = [
+        { name: 'Dashboard', link: '/dashboard', icon: <BiHome /> },
+        { name: 'Profile', link: '/profile', icon: <CgProfile /> },
+        { name: 'Feed', link: '/feed', icon: <MdLocalPostOffice /> },
+        { name: 'My Network', link: '/mynetwork', icon: <FaNetworkWired /> },
+        { name: 'Chat', link: '/chat', icon: <MdChat /> },
+    ]
+    return (
+        <Drawer open={open} onClose={() => toggleDrawer(false)}>
+            <Box sx={{ width: 250 }} role="presentation" onClick={() => toggleDrawer(false)}>
+                <Stack direction={`row`} gap={2} flex={true} alignItems={'center'} justifyItems={'center'} p={2}>
+                    <Avatar alt="Remy Sharp" src={profile} />
+                    <Stack>
+                        <Typography variant="body" fontWeight={'bold'}>Coding Maniac</Typography>
+                        <Typography variant="caption">codingmaniac01@gmail.com</Typography>
+                    </Stack>
+                </Stack>
+                <Divider />
+                <List>
+                    {menus.map((menu, index) => (
+                        <ListItem key={menu.name} disablePadding>
+                            <ListItemButton component={Link} to={menu.link} sx={{ pl: 4 }}>
+                                <ListItemIcon sx={{ minWidth: '35px', fontSize: '20px' }}>
+                                    {menu.icon}
+                                </ListItemIcon>
+                                <ListItemText sx={{ fontWeight: 'bold' }} primary={menu.name} />
+                            </ListItemButton>
+                        </ListItem>
+                    ))}
+                    <ListItem disablePadding>
+                        <ListItemButton sx={{ pl: 4 }}>
+                            <ListItemIcon sx={{ minWidth: '35px', fontSize: '20px' }}>
+                                <IoLogOutOutline />
+                            </ListItemIcon>
+                            <ListItemText sx={{ fontWeight: 'bold' }} primary={'Logout'} />
+                        </ListItemButton>
+                    </ListItem>
+                </List>
+            </Box>
+        </Drawer>
+    )
+}
+
+export default Sidebar
