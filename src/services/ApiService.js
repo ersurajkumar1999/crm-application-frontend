@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { BASE_URL } from './config';
 import { successResponse } from './ApiResponse';
-import { AUTH_LOGIN, AUTH_SIGNUP } from './API_ENDPOINTS';
+import { AUTH_LOGIN, AUTH_SIGNUP, CHECK_USER_NAME_EXISTS } from './API_ENDPOINTS';
 let service = axios.create({
   baseURL: BASE_URL,
   headers: {
@@ -31,4 +31,15 @@ const userSignUp = async (data) => {
     return { status: false, data: error?.response?.data ?? message };
   }
 }
-export { userLogin, userSignUp }
+const checkUsernameExists = async (data) => {
+  try {
+    const response = await service.post(CHECK_USER_NAME_EXISTS, data);
+    return successResponse(response);
+  } catch (error) {
+    const message = {
+      message: error?.message
+    }
+    return { status: false, data: error?.response?.data ?? message };
+  }
+}
+export { userLogin, userSignUp, checkUsernameExists }

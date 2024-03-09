@@ -8,11 +8,13 @@ import { createTheme, ThemeProvider } from '@mui/material';
 // import store from "./store";
 // import { GoogleOAuthProvider } from '@react-oauth/google';
 const root = ReactDOM.createRoot(document.getElementById("root"));
+const toggleDarkMode = false;
 const theme = createTheme({
   typography: {
     fontFamily: ['Inter', 'Oswald', 'Rubik'].join(','),
   },
   palette: {
+    mode: toggleDarkMode ? 'dark' : 'light',
     primary: {
       main: "#ffffff",
     },
