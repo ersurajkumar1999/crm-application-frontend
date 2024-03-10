@@ -1,5 +1,6 @@
 import { Button, Card, CardContent, Grid, Paper, Stack, Typography } from '@mui/material'
 import React from 'react'
+import { IoMdAddCircle } from 'react-icons/io';
 import { IoPersonAddSharp } from "react-icons/io5";
 
 
@@ -11,7 +12,7 @@ const ConnectionCard = () => {
         <>
             {
                 users.map((user) => (
-                    <Grid key={user} item xs={6} sm={6} md={3}>
+                    <Grid key={user} item xs={6} sm={6} md={4}>
                         <Card sx={{ padding: 0 }}>
                             <CardContent>
                                 <Stack sx={{
@@ -40,7 +41,8 @@ const ConnectionCard = () => {
                                     <Typography variant='body1' textAlign={'center'}>hello janm</Typography>
                                 </Stack>
                                 <Stack sx={{ marginTop: 2 }}>
-                                    <Button variant="contained" startIcon={<IoPersonAddSharp />}>Connect</Button>
+                                    <Button variant="contained"  startIcon={<IoPersonAddSharp />}>Connect</Button>
+                                    <Button variant="contained" sx={{marginTop:'10px'}} startIcon={<IoMdAddCircle  />}>Follow</Button>
                                 </Stack>
                             </CardContent>
                         </Card>

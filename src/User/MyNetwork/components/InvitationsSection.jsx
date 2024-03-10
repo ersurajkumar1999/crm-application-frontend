@@ -1,12 +1,11 @@
-import { Button, Card, CardContent, CardHeader, Grid, Paper, Stack, Typography } from '@mui/material'
 import React from 'react'
+import { Button, CardHeader, Grid, Paper, Typography } from '@mui/material'
 import ConnectionCard from './ConnectionCard'
 import { IoIosSettings } from "react-icons/io";
 
 const InvitationsSection = () => {
    
     return (
-        <>
             <Grid item xs={12} sm={6} md={8}>
                 <Paper sx={{ borderRadius: 2 }} >
                     <CardHeader
@@ -22,7 +21,6 @@ const InvitationsSection = () => {
                 </Paper>
 
             </Grid>
-        </>
     )
 }
 
