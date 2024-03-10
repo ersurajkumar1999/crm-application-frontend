@@ -48,22 +48,18 @@ const LoginPage = () => {
                 const response = await userLogin(data);
                 // This is check Only Api Response 
                 if (!response.status) {
-                    setAlertMessages(prevState => ({
-                        ...prevState,
-                        error: response?.data?.message
-                    }));
+                    setAlertMessages(prevState => ({ ...prevState, error: response?.data?.message }));
+                    return;
                 }
-                if(!response.data.status){
-                    setAlertMessages(prevState => ({
-                        ...prevState,
-                        error: response?.data?.message
-                    }));
+                if (!response.data.status) {
+                    setAlertMessages(prevState => ({ ...prevState, error: response?.data?.message }));
+                    return;
                 }
                 setAlertMessages(prevState => ({
                     ...prevState,
                     success: response?.data?.message
                 }));
-                console.log("response==>",response.data.data);
+                console.log("response==>", response.data.data);
             } catch (error) {
                 // dispatch(setError(error))
             } finally {

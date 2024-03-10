@@ -3,7 +3,7 @@ import React from 'react'
 
 export const ErrorMessage = ({ message, handlonCloseeMessage }) => {
     return (
-        <Alert severity="error" onClose={() => { handlonCloseeMessage }}>
+        <Alert fullWidth severity="error" onClose={handlonCloseeMessage}>
             {message}
         </Alert>
     )
