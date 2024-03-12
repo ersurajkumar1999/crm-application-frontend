@@ -6,8 +6,12 @@ const AUTH_SIGNUP = "auth/signup";
 const PROFILE = "profile";
 const CHECK_USER_NAME_EXISTS = "check-username-exists";
 
+// post
+const CREATE_POST = "post/create";
+const POSTS = "posts";
 
 // Exporting all variables at once
 export {
-    AUTH_LOGIN, AUTH_SIGNUP, PROFILE, CHECK_USER_NAME_EXISTS
+    AUTH_LOGIN, AUTH_SIGNUP, PROFILE, CHECK_USER_NAME_EXISTS,
+    POSTS, CREATE_POST
 };
