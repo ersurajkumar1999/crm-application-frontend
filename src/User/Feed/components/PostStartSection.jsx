@@ -15,7 +15,8 @@ const PostStartSection = () => {
     const [state, setState] = useState({
         status: 1,
         content: null,
-        isLoading: false
+        isLoading: false,
+        titel: 'titel'
     });
 
     const handleClickOpen = () => setOpen(true);
@@ -34,7 +35,7 @@ const PostStartSection = () => {
         } catch (error) {
             console.log("error===>", error);
             setState({ ...state, isLoading: false });
-        }finally{
+        } finally {
             setOpen(false);
             setState({ ...state, isLoading: false });
         }
