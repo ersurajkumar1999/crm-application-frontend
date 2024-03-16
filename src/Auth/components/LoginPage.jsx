@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from "formik";
 import { loginSchema } from '../../schemas/FormSchemas';
@@ -11,9 +11,12 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { userLogin } from '../../services/ApiService';
 import { SuccessMessage, ErrorMessage } from '../../components/common/alertMessages';
+import { login } from '../../store/slices/authSlice';
+import { useDispatch } from 'react-redux';
 const LoginPage = () => {
     const navigate = useNavigate();
-
+    const dispatch = useDispatch();
+    
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
@@ -59,8 +62,11 @@ const LoginPage = () => {
                     ...prevState,
                     success: response?.data?.message
                 }));
-                console.log("response==>", response.data.data);
+                resetForm();
+                dispatch(login(response.data.data ?? null));
+                navigate('/dashboard');
             } catch (error) {
+                setAlertMessages(prevState => ({ ...prevState, error: "Something is Wrong. Please try again" }));
                 // dispatch(setError(error))
             } finally {
                 setSubmitting(false);

@@ -25,9 +25,6 @@ import { useState } from 'react';
 function ResponsiveAppBar() {
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [open, setOpen] = useState(false);
-
-
-
     const logo = "https://static.canva.com/web/images/12487a1e0770d29351bd4ce4f87ec8fe.svg";
     const profile = "https://i.pravatar.cc/150?img=3";
 

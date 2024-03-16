@@ -4,9 +4,12 @@ import App from "./App";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { createTheme, ThemeProvider } from '@mui/material';
-// import { Provider } from 'react-redux'
-// import store from "./store";
+import { Provider } from 'react-redux'
+import store from "./store";
 // import { GoogleOAuthProvider } from '@react-oauth/google';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const toggleDarkMode = false;
 const theme = createTheme({
@@ -36,14 +39,15 @@ const theme = createTheme({
 });
 root.render(
   <React.StrictMode>
-    {/* <Provider store={store}> */}
-    <BrowserRouter>
-      {/* <GoogleOAuthProvider clientId="125939043148-pia42325rovru2vvoh2f7fjqho7c2djl.apps.googleusercontent.com"> */}
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
-      {/* </GoogleOAuthProvider> */}
-    </BrowserRouter>
-    {/* </Provider> */}
+    <Provider store={store}>
+      <BrowserRouter>
+        <ToastContainer />
+        {/* <GoogleOAuthProvider clientId="125939043148-pia42325rovru2vvoh2f7fjqho7c2djl.apps.googleusercontent.com"> */}
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+        {/* </GoogleOAuthProvider> */}
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
