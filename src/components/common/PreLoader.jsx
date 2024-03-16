@@ -1,6 +1,4 @@
 import { Skeleton, Stack } from '@mui/material'
-import React from 'react'
-
 const PreLoader = () => {
     return (
         <Stack spacing={1}>

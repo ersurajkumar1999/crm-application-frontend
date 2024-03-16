@@ -35,6 +35,9 @@ export default function PostCardInformation({ posts }) {
     const isPostExpanded = (index) => {
         return expandedPosts.includes(index);
     };
+    const postUserName = (post) => {
+        return (post?.createdBY?.profile?.firstName + " " + post?.createdBY?.profile?.lastName) ?? 'N/A';
+    }
     return (
         <>
             {
@@ -51,7 +54,7 @@ export default function PostCardInformation({ posts }) {
                                     <MoreVertIcon />
                                 </IconButton>
                             }
-                            title="Shrimp and Chorizo Paella"
+                            title={postUserName(post)}
                             subheader={CalculateDateTime(post.createdAt)}
                         />
                         {
