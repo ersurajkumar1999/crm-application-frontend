@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 
 const ProfileInformation = () => {
     const {profileData, isLoading} = useSelector((state) => state.profile);
-    console.log("profileData==>",profileData.profile.firstName);
     const bannerImage = "https://ik.imagekit.io/hydlcbl5qlg/public/misc/KsrVAKsM9bH38aMVNsuSX5Fn8Gx7ym5ZOgYtfE8n.jpg";
     const profileImage = "https://ik.imagekit.io/hydlcbl5qlg/public/misc/ew0pzkUKnYUMr6ukvIyjrcgztGyCjEicw1jETe9n.jpg";
     return (
@@ -39,8 +38,8 @@ const ProfileInformation = () => {
                     <Divider />
                     <Grid item xs={12} sm={6} md={12}>
                         <Stack >
-                            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{profileData.profile?.firstName} {profileData.profile?.lastName}</Typography>
-                            <Typography variant="body1">{profileData.profile?.about??'N/A'}</Typography>
+                            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{profileData?.profile?.firstName} {profileData?.profile?.lastName}</Typography>
+                            <Typography variant="body1">{profileData?.profile?.about??'N/A'}</Typography>
                         </Stack>
                     </Grid>
                     <Divider />
