@@ -1,7 +1,7 @@
 
 import {
     Card, CardHeader, CardMedia, CardContent, CardActions,
-    Avatar, IconButton, Typography, Button
+    Avatar, IconButton, Typography, Button, Link
 } from '@mui/material';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -12,10 +12,29 @@ import { FaRegComment, FaRegHeart, FaShare } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
 import CreatePostSection from './CreatePostSection';
 import { useState } from 'react';
+import { CalculateDateTime } from '../../../helpers/CalculateDateTime';
+import PostImageSlider from './PostImageSlider';
 
+const MAX_CONTENT_LENGTH = 50;
 
 export default function PostCardInformation({ posts }) {
+    const [expandedPosts, setExpandedPosts] = useState([]);
 
+    const shouldShowMore = (content) => {
+        return content.split(' ').length > MAX_CONTENT_LENGTH;
+    };
+
+    const handleShowMoreClick = (index) => {
+        if (expandedPosts.includes(index)) {
+            setExpandedPosts(expandedPosts.filter(item => item !== index));
+        } else {
+            setExpandedPosts([...expandedPosts, index]);
+        }
+    };
+
+    const isPostExpanded = (index) => {
+        return expandedPosts.includes(index);
+    };
     return (
         <>
             {
@@ -33,20 +52,21 @@ export default function PostCardInformation({ posts }) {
                                 </IconButton>
                             }
                             title="Shrimp and Chorizo Paella"
-                            subheader="September 14, 2016"
+                            subheader={CalculateDateTime(post.createdAt)}
                         />
-                        <CardMedia
-                            component="img"
-                            height="194"
-                            image="https://mui.com/static/images/cards/paella.jpg"
-                            alt="Paella dish"
-                        />
+                        {
+                            post.images.length > 0 && <PostImageSlider images={post.images} />
+                        }
                         <CardContent>
-                            <Typography variant="body2" color="text.secondary">
-                                This impressive paella is a perfect party dish and a fun meal to cook
-                                together with your guests. Add 1 cup of frozen peas along with the mussels,
-                                if you like.
+                            <Typography variant="body2" sx={{ textAlign: 'justify' }} color="text.secondary">
+                                {shouldShowMore(post.content) && !isPostExpanded(index) ? `${post.content.split(' ').slice(0, MAX_CONTENT_LENGTH).join(' ')}...` : post.content}
                             </Typography>
+                            {shouldShowMore(post.content) && (
+
+                                <Link href="#" onClick={() => handleShowMoreClick(index)} variant="contained" color="text.secondary" >
+                                    {isPostExpanded(index) ? "Show Less" : "Show More"}
+                                </Link >
+                            )}
                         </CardContent>
                         <CardActions disableSpacing>
                             <IconButton aria-label="add to favorites" sx={{ margin: '0 auto' }}>
