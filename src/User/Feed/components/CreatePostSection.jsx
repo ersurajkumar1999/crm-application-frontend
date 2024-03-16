@@ -9,6 +9,7 @@ import { IoCloseCircleOutline } from 'react-icons/io5';
 import { red } from '@mui/material/colors';
 import { FaLock } from 'react-icons/fa';
 import { MdPublic } from "react-icons/md";
+import FileUpload from './FileUpload';
 const CreatePostSection = ({ handleClose, handleSubmitPost, open, state, setState }) => {
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -108,6 +109,9 @@ const CreatePostSection = ({ handleClose, handleSubmitPost, open, state, setStat
                             value={state.content}
                             onChange={handleChange}
                         />
+                    </Grid>
+                    <Grid item xs={12} md={12}>
+                       <FileUpload />
                     </Grid>
                 </Grid>
             </DialogContent>
