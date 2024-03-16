@@ -64,6 +64,7 @@ const getAllPost = async (data) => {
     return { status: false, data: error?.response?.data ?? message };
   }
 }
+
 export {
   userLogin, userSignUp, checkUsernameExists,
   createPost, getAllPost
