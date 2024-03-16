@@ -1,19 +1,43 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import {
-    Box, Container, Grid, Paper, Stack, Typography,
+    Box, Container, Grid, Paper, Stack,
     Card, Tabs, useMediaQuery, Tab
 } from "@mui/material";
 import EditProfileSection from './components/EditProfileSection';
 import PostSection from './components/PostSection';
 import AccountSettingSection from './components/AccountSettingSection';
 import ProfileInformation from './components/ProfileInformation';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProfile } from '../../services/CommonServices';
+import { setLoading, setProfileData } from '../../store/slices/profileSlice';
+
 const Profile = () => {
+    // Inside your component
+    const dispatch = useDispatch();
+    const {profileData} = useSelector((state) => state.profile);
     const [selectedTab, setSelectedTab] = useState(0);
     const handleTabChange = (event, newValue) => setSelectedTab(newValue);
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-    
+
+    useEffect(()=>{
+        if(!profileData){
+            const getProfileData = async () => {
+                dispatch(setLoading(true));
+                try {
+                    const response = await getProfile();
+                    if(response.status){
+                        dispatch(setProfileData(response?.data?.data??null))
+                    }
+                } catch (error) {
+                    console.log("Error getting profile", error);
+                }
+                dispatch(setLoading(false));
+            }
+            getProfileData();
+        }
+    },[profileData])
     return (
         <>
             <Container sx={{ marginTop: 1 }} maxWidth="xl">
