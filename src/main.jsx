@@ -25,18 +25,27 @@ const theme = createTheme({
       main: "#7731D8",
     },
   },
-
-  overrides: {
+  components: {
+    MuiSlider: {
+      styleOverrides: {
+        root: {
+          color: '#000', // Change the color to whatever you desire
+        },
+      },
+    },
     MuiInput: {
-      root: {
-        color: "orange",
-        "&$focused": {
-          color: "blue",
+      styleOverrides: {
+        root: {
+          color: "orange",
+          "&$focused": {
+            color: "blue",
+          },
         },
       },
     },
   },
 });
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>

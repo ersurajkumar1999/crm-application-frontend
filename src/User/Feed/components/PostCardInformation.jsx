@@ -14,6 +14,7 @@ import CreatePostSection from './CreatePostSection';
 import { useState } from 'react';
 import { CalculateDateTime } from '../../../helpers/CalculateDateTime';
 import PostImageSlider from './PostImageSlider';
+import { FcLike } from "react-icons/fc";
 
 const MAX_CONTENT_LENGTH = 50;
 
@@ -74,6 +75,7 @@ export default function PostCardInformation({ posts }) {
                         <CardActions disableSpacing>
                             <IconButton aria-label="add to favorites" sx={{ margin: '0 auto' }}>
                                 <FaRegHeart />
+                                {/* <FcLike /> */}
                             </IconButton>
                             <IconButton aria-label="add to favorites" sx={{ margin: '0 auto' }}>
                                 <FaRegComment />

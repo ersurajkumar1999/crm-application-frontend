@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { BASE_URL } from './config';
 import { successResponse } from './ApiResponse';
-import { CHECK_USER_NAME_EXISTS, CREATE_POST, POSTS, PROFILE } from './API_ENDPOINTS';
+import { CHECK_USER_NAME_EXISTS, CREATE_POST, POSTS, PROFILE, UPDATE_PROFILE } from './API_ENDPOINTS';
 import { getToken } from './AuthService';
 let service = axios.create({
     baseURL: BASE_URL,
@@ -55,7 +55,18 @@ const getProfile = async () => {
         return { status: false, data: error?.response?.data ?? message };
     }
 }
+const updateProfile = async (data) => {
+    try {
+        const response = await service.post(UPDATE_PROFILE, data);
+        return successResponse(response);
+    } catch (error) {
+        const message = {
+            message: error?.message
+        }
+        return { status: false, data: error?.response?.data ?? message };
+    }
+}
 export {
     checkUsernameExists,
-    createPost, getAllPost, getProfile
+    createPost, getAllPost, getProfile, updateProfile
 }
