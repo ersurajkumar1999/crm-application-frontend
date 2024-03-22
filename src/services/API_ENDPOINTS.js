@@ -11,8 +11,27 @@ const CHECK_USER_NAME_EXISTS = "check-username-exists";
 const CREATE_POST = "post/create";
 const POSTS = "posts";
 
+
+// user chat
+const SEARCH_USER = "search-users";
+const FETCH_ALL_CHATS = "fetch-all-chats";
+
+const USER_LIST_FOR_CONNECTIONS = "user-list-for-connections";
+const MY_RECEIVED_CONNECTIONS = "my-received-connections";
+const MY_SEND_CONNECTIONS = "my-send-connections";
+
+// connections
+const SEND_REQUEST = "send-request";
+const ACCEPT_REQUEST = "accept-request";
+
+// Social Media
+const UPDATE_SOCIAL_MEDIA = 'update-social-media';
+
+
+
 // Exporting all variables at once
 export {
     AUTH_LOGIN, AUTH_SIGNUP, PROFILE, CHECK_USER_NAME_EXISTS,
-    POSTS, CREATE_POST, UPDATE_PROFILE
+    POSTS, CREATE_POST, UPDATE_PROFILE, SEARCH_USER, FETCH_ALL_CHATS, USER_LIST_FOR_CONNECTIONS,
+    MY_RECEIVED_CONNECTIONS, MY_SEND_CONNECTIONS, SEND_REQUEST, ACCEPT_REQUEST, UPDATE_SOCIAL_MEDIA
 };

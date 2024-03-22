@@ -1,31 +1,21 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 import {
-    Grid, Stack, Skeleton, Card, Typography, CardHeader, Button, Container, Box
+    Grid, Stack, Skeleton, Card, CardContent, Typography, Container, Box
 } from "@mui/material";
 
-// import ConnectionInformation from '../../components/common/ConnectionInformation';
-import ConnectionCard from './components/ConnectionCard';
-import { sendRequest } from '../../services/ConnectionService';
-// import { AuthContext } from '../../contexts/AuthContext';
-import SettingsIcon from '@mui/icons-material/Settings';
-import { useNavigate } from 'react-router-dom';
-import { getUserList } from '../../services/CommonServices';
+import ConnectionCard from '../MyNetwork/components/ConnectionCard';
+import { getMyReceivedConnections, sendRequest } from '../../services/ConnectionService';
 import { useSelector } from 'react-redux';
-import ConnectionInformation from '../../components/ConnectionInformation';
-
-
-const MyNetwork = () => {
-    const { profileData } = useSelector((state) => state.profile);
-    console.log("profileData===>", profileData);
-    const navigate = useNavigate();
+// import { AuthContext } from '../../contexts/AuthContext';
+const MyConnections = () => {
     // const { user } = useContext(AuthContext);
-    const user = null;
+    const { profileData } = useSelector((state) => state.profile);
     const loginUserId = profileData?._id;
     const [state, setState] = useState({
         users: [],
         data: [],
-        loading: true,
+        loading: false,
         page: 1,
         pageSize: 15,
     });
@@ -40,8 +30,7 @@ const MyNetwork = () => {
             }));
 
             try {
-                const { data } = await getUserList({ page, pageSize });
-                console.log("data========>", data);
+                const { data } = await getMyReceivedConnections({ page, pageSize });
                 setState(prevState => ({
                     ...prevState,
                     data: data.data,
@@ -115,28 +104,24 @@ const MyNetwork = () => {
         }
         console.log("handleUserConnection", userId);
     }
-    // constant
-    const headerSX = {
-        '& .MuiCardHeader-action': { mr: 0 }
-    };
     return (
         <Container sx={{ marginTop: 1 }} maxWidth="xl">
             <Box py={5} display={`flex`} flexDirection={`column`} alignItems={`center`}>
                 <Grid container spacing={3} my={2} justifyContent="center">
-                    <Grid item xs={12} sm={6} md={4}>
-                        <ConnectionInformation setState={setState} />
+                    <Grid item xs={12} sm={6} md={8}>
+                        <Card>
+                            <CardContent>
+                                <Typography variant="h5" component="h2">
+                                    Card
+                                </Typography>
+                                <Typography color="textSecondary">
+                                    This is the content of card 2.
+                                </Typography>
+                            </CardContent>
+                        </Card>
                     </Grid>
                     <Grid item xs={12} sm={6} md={8}>
                         <Grid container spacing={3}>
-                            <Grid item xs={12} sm={6} md={12}>
-                                <Card>
-                                    <CardHeader
-                                        sx={headerSX}
-                                        title={<Typography variant="h6" component="h6">Invitations</Typography>}
-                                        action={<Button variant="contained" startIcon={<SettingsIcon />} onClick={() => navigate('/invitation-manager')}> Manage</Button>} // include the header action here
-                                    />
-                                </Card>
-                            </Grid>
                             <ConnectionCard users={users} handleUserConnection={handleUserConnection} />
                             <Grid item xs={12} ref={lastUserElementRef}>
                                 {
@@ -159,4 +144,5 @@ const MyNetwork = () => {
         </Container>
     )
 }
-export default MyNetwork;
+
+export default MyConnections

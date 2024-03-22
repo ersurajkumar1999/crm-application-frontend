@@ -14,8 +14,7 @@ const ChatWindow = ({ activeUser }) => {
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-    console.log("isMobile==>", isMobile);
-    console.log("activeUser==>", activeUser);
+    
     return (
         <Grid item xs={12} sm={6} md={8} >
             <Grid container spacing={3}>

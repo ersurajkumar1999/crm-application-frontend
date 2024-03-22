@@ -15,7 +15,7 @@ const EditProfileSection = () => {
             <Grid item xs={12} sm={12} md={12}>
                 <CardContent>
                     <PersonalInformation expanded={expanded} handlePanelChange={handlePanelChange} />
-                    <SocialMediaInformation expanded={expanded} handlePanelChange={handlePanelChange} />
+                    <SocialMediaInformation expanded={expanded} handlePanelChange={handlePanelChange}/>
                     <AddressInformation expanded={expanded} handlePanelChange={handlePanelChange} />
                 </CardContent>
 

@@ -53,62 +53,8 @@ export const addressInformationSchema = Yup.object({
   address2: Yup.string().optional(),
   pinCode: Yup.string().min(6).max(6).required('Please enter your pin code'),
 });
-// export const socialMediaSchema = Yup.object({
-//   facebook: Yup.string().optional(),
-//   youTube: Yup.string().optional(),
-//   instagram: Yup.string().optional(),
-//   twitter: Yup.string().optional(),
-//   linkedIn: Yup.string().optional(),
-//   threads: Yup.string().optional(),
-//   snapChat: Yup.string().optional(),
-//   telegram: Yup.string().optional(),
-//   gitHub: Yup.string().optional(),
-// });
-
-export const socialMediaSchema = Yup.object().shape({
-  facebook: Yup.object().shape({
-    platform: Yup.string().default("facebook"),
-    link: Yup.string().optional(),
-    visibility: Yup.string().default("public")
-  }),
-  youTube: Yup.object().shape({
-    platform: Yup.string().default("youTube"),
-    link: Yup.string().optional(),
-    visibility: Yup.string().default("public")
-  }),
-  instagram: Yup.object().shape({
-    platform: Yup.string().default("instagram"),
-    link: Yup.string().optional(),
-    visibility: Yup.string().default("public")
-  }),
-  twitter: Yup.object().shape({
-    platform: Yup.string().default("twitter"),
-    link: Yup.string().optional(),
-    visibility: Yup.string().default("public")
-  }),
-  linkedIn: Yup.object().shape({
-    platform: Yup.string().default("linkedIn"),
-    link: Yup.string().optional(),
-    visibility: Yup.string().default("public")
-  }),
-  threads: Yup.object().shape({
-    platform: Yup.string().default("threads"),
-    link: Yup.string().optional(),
-    visibility: Yup.string().default("public")
-  }),
-  snapChat: Yup.object().shape({
-    platform: Yup.string().default("snapChat"),
-    link: Yup.string().optional(),
-    visibility: Yup.string().default("public")
-  }),
-  telegram: Yup.object().shape({
-    platform: Yup.string().default("telegram"),
-    link: Yup.string().optional(),
-    visibility: Yup.string().default("public")
-  }),
-  gitHub: Yup.object().shape({
-    platform: Yup.string().default("gitHub"),
-    link: Yup.string().optional(),
-    visibility: Yup.string().default("public")
-  })
+export const socialMediaSchema = Yup.object({
+  platform: Yup.string().required('Please select platform!'),
+  link: Yup.string().required('Please enter link!'),
+  visibility: Yup.string().required('Please select visibility!'),
 });

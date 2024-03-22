@@ -1,56 +1,86 @@
-import { Button, Card, CardContent, Grid, Paper, Stack, Typography } from '@mui/material'
-import React from 'react'
-import { IoMdAddCircle } from 'react-icons/io';
-import { IoPersonAddSharp } from "react-icons/io5";
+import React, { useContext } from 'react'
+import {
+    Grid, Card, CardContent, CardHeader, Avatar, Typography, Button, IconButton,
+    CardActions,
+} from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import AddIcon from '@mui/icons-material/Add';
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 
+import { styled } from '@mui/material/styles';
+import { useSelector } from 'react-redux';
+// import { AuthContext } from '../../../contexts/AuthContext';
 
-const ConnectionCard = () => {
-    const users = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12]
-    const bannerImage = "https://ik.imagekit.io/hydlcbl5qlg/public/misc/KsrVAKsM9bH38aMVNsuSX5Fn8Gx7ym5ZOgYtfE8n.jpg";
-    const profileImage = "https://ik.imagekit.io/hydlcbl5qlg/public/misc/ew0pzkUKnYUMr6ukvIyjrcgztGyCjEicw1jETe9n.jpg";
+const StyledAvatarContainer = styled('div')({
+    width: '100%',
+    textAlign: 'center',
+    margin: 'auto',
+});
+
+const StyledCardUp = styled('div')({
+    height: '70px',
+    backgroundImage: "url('https://ik.imagekit.io/hydlcbl5qlg/public/misc/28iK9OtJk9TlPTbYUyohzvplQminYXV8ZjfrLIiw.jpg')",
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+});
+const ConnectionCard = ({ users, handleUserConnection }) => {
+    const { profileData } = useSelector((state) => state.profile);
+    const userId = profileData?._id;
+    const checkFriendsRequest = (user) => {
+        const requestSent = user.friendRequestsReceived.some((friendRequest) => {
+            return friendRequest.requester === userId;
+        });
+        return requestSent;
+    }
     return (
         <>
             {
-                users.map((user) => (
-                    <Grid key={user} item xs={6} sm={6} md={4}>
-                        <Card sx={{ padding: 0 }}>
-                            <CardContent>
-                                <Stack sx={{
-                                    height: '100px',
-                                    width: '100%',
-                                    padding: 0
-                                }}>
-                                    <img height={'100%'} width={'100%'} src={bannerImage} alt="" />
-                                </Stack>
-                                <Stack sx={{
-                                    width: '150px',
-                                    margin: '0 auto',
-                                    borderRadius: 4
-                                }}>
-                                    <img style={{
-                                        borderRadius: '50%',
-                                        height: '100px',
-                                        width: '100px',
-                                        border: '5px solid white',
-                                        margin: '0 auto',
-                                        marginTop: '-50px'
-                                    }} src={profileImage} alt="" />
-                                </Stack>
-                                <Stack >
-                                    <Typography variant='h6' textAlign={'center'} fontWeight={'bold'}>hello janm</Typography>
-                                    <Typography variant='body1' textAlign={'center'}>hello janm</Typography>
-                                </Stack>
-                                <Stack sx={{ marginTop: 2 }}>
-                                    <Button variant="contained"  startIcon={<IoPersonAddSharp />}>Connect</Button>
-                                    <Button variant="contained" sx={{marginTop:'10px'}} startIcon={<IoMdAddCircle  />}>Follow</Button>
-                                </Stack>
-                            </CardContent>
+                users.length > 0 && users.map((user, index) => (
+                    <Grid key={users._id} item xs={12} sm={6} md={4}>
+                        <Card>
+                            <StyledAvatarContainer>
+                                <StyledCardUp />
+                                <CardHeader
+                                    action={
+                                        <IconButton sx={{ marginTop: '-120px', backgroundColor: '#623e09', color: 'black' }}>
+                                            <CloseIcon color={"red"} />
+                                        </IconButton>
+                                    }
+                                />
+                                <Avatar sx={{ width: 150, height: 150, margin: 'auto', border: '2px solid #fff', marginTop: '-100px', zIndex: '11' }}>
+                                    <Avatar sx={{ height: '100%', width: '100%' }} src="https://avatars.githubusercontent.com/u/146355358?v=4" alt="woman avatar" />
+                                </Avatar>
+                                <CardContent>
+                                    <Typography variant="h5" component="h5" >
+                                        {user.username}
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        {index}:- Lorem ipsum dolor sit amet,
+                                    </Typography>
+                                </CardContent>
+                                <CardActions>
+                                    {
+                                        checkFriendsRequest(user) ?
+                                            <>
+                                                <Button size="small" sx={{ width: '50%', backgroundColor: '#a4a4a4' }} variant="contained" onClick={() => handleUserConnection(user._id, index)} startIcon={<AccessAlarmIcon />}> Pending</Button>
+                                                <Button size="small" sx={{ width: '50%' }} variant="contained" ><AddIcon /> Connect</Button>
+                                            </>
+                                            :
+                                            <>
+                                                <Button size="small" sx={{ width: '50%' }} variant="contained" onClick={() => handleUserConnection(user._id, index)}><PersonAddIcon /> Connect</Button>
+                                                <Button size="small" sx={{ width: '50%' }} variant="contained" ><AddIcon /> Connect</Button>
+                                            </>
+                                    }
+
+
+                                </CardActions>
+                            </StyledAvatarContainer>
                         </Card>
                     </Grid>
                 ))
             }
         </>
-
     )
 }
 

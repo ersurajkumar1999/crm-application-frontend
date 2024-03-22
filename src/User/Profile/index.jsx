@@ -15,20 +15,20 @@ import { setLoading, setProfileData } from '../../store/slices/profileSlice';
 const Profile = () => {
     // Inside your component
     const dispatch = useDispatch();
-    const {profileData} = useSelector((state) => state.profile);
+    const { profileData } = useSelector((state) => state.profile);
     const [selectedTab, setSelectedTab] = useState(0);
     const handleTabChange = (event, newValue) => setSelectedTab(newValue);
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-    useEffect(()=>{
-        if(!profileData){
+    useEffect(() => {
+        if (!profileData) {
             const getProfileData = async () => {
                 dispatch(setLoading(true));
                 try {
                     const response = await getProfile();
-                    if(response.status){
-                        dispatch(setProfileData(response?.data?.data??null))
+                    if (response.status) {
+                        dispatch(setProfileData(response?.data?.data ?? null))
                     }
                 } catch (error) {
                     console.log("Error getting profile", error);
@@ -37,7 +37,7 @@ const Profile = () => {
             }
             getProfileData();
         }
-    },[profileData])
+    }, [profileData])
     return (
         <>
             <Container sx={{ marginTop: 1 }} maxWidth="xl">
@@ -65,7 +65,7 @@ const Profile = () => {
                             </Card>
                             <Card sx={{ marginTop: '10px' }}>
                                 {
-                                    selectedTab == 0 && <EditProfileSection />
+                                    selectedTab == 0 && <EditProfileSection/>
                                 }
                                 {
                                     selectedTab == 1 && <AccountSettingSection />
