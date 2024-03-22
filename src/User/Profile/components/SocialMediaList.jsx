@@ -108,7 +108,7 @@ export default function SocialMediaList() {
                     />
                     <List>
                         {
-                            profileData.socials.length > 0 && profileData.socials.map((social) => (
+                            profileData?.socials.length > 0 && profileData?.socials.map((social) => (
                                 <ListItem key={social._id}
                                     secondaryAction={
                                         <>
