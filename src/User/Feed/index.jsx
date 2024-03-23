@@ -8,7 +8,7 @@ import {
 import ProfileInformation from './components/ProfileInformation';
 import PostCardInformation from './components/PostCardInformation';
 import PostStartSection from './components/PostStartSection';
-import { getAllPost } from '../../services/ApiService';
+import { getAllPost } from '../../services/CommonServices';
 import PreLoader from '../../components/common/PreLoader';
 
 const Feed = () => {
@@ -25,21 +25,21 @@ const Feed = () => {
     const { posts, data, loading, page, pageSize } = state;
     const observer = useRef(null);
 
+    const getPost = async () => {
+        setState(prevState => ({ ...prevState, loading: true }));
+        try {
+            const { data } = await getAllPost({ page, pageSize });
+            setState(prevState => ({
+                ...prevState,
+                data: data.data,
+                posts: [...prevState.posts, ...data.data],
+                loading: false
+            }));
+        } catch (error) {
+            setState(prevState => ({ ...prevState, loading: false }));
+        }
+    };
     useEffect(() => {
-        const getPost = async () => {
-            setState(prevState => ({ ...prevState, loading: true }));
-            try {
-                const { data } = await getAllPost({ page, pageSize });
-                setState(prevState => ({
-                    ...prevState,
-                    data: data.data,
-                    posts: [...prevState.posts, ...data.data],
-                    loading: false
-                }));
-            } catch (error) {
-                setState(prevState => ({ ...prevState, loading: false }));
-            }
-        };
         getPost();
     }, [page, pageSize]);
 
@@ -54,6 +54,7 @@ const Feed = () => {
         if (node) observer.current.observe(node);
     }, [loading, data.length]);
 
+    const handlePostReset = (lastPost) => setState(prevState => ({ ...prevState, posts: [lastPost, ...posts] }));
     return (
         <Container sx={{ marginTop: 1 }} maxWidth="xl">
             <Box py={5} display={`flex`} flexDirection={`column`} alignItems={`center`}>
@@ -66,18 +67,20 @@ const Feed = () => {
                         </Paper>
                     </Grid>
                     <Grid item xs={12} sm={6} md={5}>
-                        <PostStartSection />
+                        <PostStartSection handlePostReset={handlePostReset} />
                         <Stack spacing={1} sx={{ paddingTop: 1 }}>
                             <PostCardInformation posts={posts} />
                         </Stack>
                         <Grid container spacing={3} my={2} justifyContent="center">
                             <Grid item xs={12} md={12} ref={lastUserElementRef}>
-                                {loading && <PreLoader /> }
+                                {loading && <PreLoader />}
                             </Grid>
                         </Grid>
                     </Grid>
 
-                    <Grid item xs={12} sm={6} md={3}>
+                    <Grid item xs={12} sm={6} md={3} sx={{
+                        display: { xs: 'none', md: 'block' },
+                    }}>
                         <Paper sx={{ padding: 1, borderRadius: 1 }} >
                             <Stack spacing={1}>
                                 ProfileInformation

@@ -14,13 +14,8 @@ import { getProfile, updateSocialMedia } from '../../../services/CommonServices'
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoading, setProfileData } from '../../../store/slices/profileSlice';
 import { CalculateDateTime } from '../../../helpers/CalculateDateTime';
-function generate(element) {
-    return [0, 1, 2].map((value) =>
-        React.cloneElement(element, {
-            key: value,
-        }),
-    );
-}
+import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaYoutube, FaSnapchat, FaTelegram, FaPinterest, FaGithub } from 'react-icons/fa';
+
 
 export default function SocialMediaList() {
     const dispatch = useDispatch();
@@ -35,18 +30,23 @@ export default function SocialMediaList() {
     }
     const [open, setOpen] = React.useState(false);
 
-
     const platforms = [
-        "Facebook", "Instagram", "Twitter", "LinkedIn", // Social Networking
-        "YouTube", // Video Sharing
-        "Threads", "Snapchat", "Telegram", 'Pinterest',// Messaging
-        "GitHub" // Software Development Collaboration
+        { name: 'Facebook', icon: <FaFacebook /> },
+        { name: 'Instagram', icon: <FaInstagram /> },
+        { name: 'Twitter', icon: <FaTwitter /> },
+        { name: 'LinkedIn', icon: <FaLinkedin /> },
+        { name: 'YouTube', icon: <FaYoutube /> },
+        { name: 'Snapchat', icon: <FaSnapchat /> },
+        { name: 'Telegram', icon: <FaTelegram /> },
+        { name: 'Pinterest', icon: <FaPinterest /> },
+        { name: 'GitHub', icon: <FaGithub /> }
     ];
+
     const initialValues = {
         id: null,
-        platform: "platform",
-        link: "link",
-        visibility: "visibility"
+        platform: "",
+        link: "",
+        visibility: ""
     };
     const {
         errors,
@@ -120,7 +120,7 @@ export default function SocialMediaList() {
                                                 <DeleteIcon />
                                             </IconButton>
                                             <IconButton edge="end" aria-label="delete"
-                                                onClick={() => InvitationAccept(user.requester._id)}
+                                                // onClick={() => InvitationAccept(user.requester._id)}
                                                 sx={{
                                                     margin: '4px',
                                                     padding: '8px'

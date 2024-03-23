@@ -1,7 +1,7 @@
 import React from 'react'
 import {
     Dialog, DialogActions, DialogContent,
-    DialogTitle, Button, Divider, Grid, IconButton, InputLabel, Stack, TextField, FormControl, Select, MenuItem, FormLabel, FormControlLabel, FormHelperText
+    DialogTitle, Button, Divider, Grid, IconButton, InputLabel, Stack, TextField, FormControl, Select, MenuItem, FormLabel, FormControlLabel, FormHelperText, CircularProgress
 } from '@mui/material';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 import Radio from '@mui/material/Radio';
@@ -47,13 +47,14 @@ const SocialMediaModel = (props) => {
                                 onBlur={handleBlur}
                                 color='secondary'
                                 name="platform"
+                                disabled={isSubmitting}
                                 helperText={(touched.platform && errors.platform)}
                                 error={touched.platform && !!errors.platform} // Check if the field is touched and has an error
                             >
                                 <MenuItem value="" selected disabled>Select</MenuItem>
                                 {
-                                    platforms.map((platform) =>(
-                                        <MenuItem value={platform}>{platform}</MenuItem>
+                                    platforms.map((platform) => (
+                                        <MenuItem value={platform.name} sx={{ gap: 1 }} key={platform.name} selected={platform.name === values.platform}>{platform.icon}   {platform.name}</MenuItem>
                                     ))
                                 }
                             </Select>
@@ -105,8 +106,13 @@ const SocialMediaModel = (props) => {
             <Divider />
             <DialogActions>
                 <Button onClick={handleClose} variant="contained">Cancel</Button>
-                <Button onClick={handleSubmit} autoFocus variant="contained">
-                    Create
+                <Button
+                    onClick={handleSubmit}
+                    type="submit"
+                    variant="contained"
+                    disabled={isSubmitting}
+                >
+                    {isSubmitting ? <CircularProgress size={24} color="inherit" /> : 'Create'}
                 </Button>
             </DialogActions>
         </Dialog>

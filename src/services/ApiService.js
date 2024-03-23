@@ -31,41 +31,8 @@ const userSignUp = async (data) => {
     return { status: false, data: error?.response?.data ?? message };
   }
 }
-const checkUsernameExists = async (data) => {
-  try {
-    const response = await service.post(CHECK_USER_NAME_EXISTS, data);
-    return successResponse(response);
-  } catch (error) {
-    const message = {
-      message: error?.message
-    }
-    return { status: false, data: error?.response?.data ?? message };
-  }
-}
-const createPost = async (data) => {
-  try {
-    const response = await service.post(CREATE_POST, data);
-    return successResponse(response);
-  } catch (error) {
-    const message = {
-      message: error?.message
-    }
-    return { status: false, data: error?.response?.data ?? message };
-  }
-}
-const getAllPost = async (data) => {
-  try {
-    const response = await service.post(POSTS, data);
-    return successResponse(response);
-  } catch (error) {
-    const message = {
-      message: error?.message
-    }
-    return { status: false, data: error?.response?.data ?? message };
-  }
-}
+
 
 export {
-  userLogin, userSignUp, checkUsernameExists,
-  createPost, getAllPost
+  userLogin, userSignUp
 }

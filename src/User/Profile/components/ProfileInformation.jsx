@@ -2,7 +2,7 @@ import {
     Button, Divider, Grid, IconButton, InputLabel, Stack, TextField, Typography,
     Dialog, DialogActions, DialogContent,
     DialogTitle,
-    Box, Slider
+    Box, Slider, Paper
 } from '@mui/material'
 import PreLoader from '../../../components/common/PreLoader';
 import { useSelector } from 'react-redux';
@@ -13,6 +13,8 @@ import Cropper from 'react-easy-crop'
 
 import { Cancel } from '@mui/icons-material';
 import CropIcon from '@mui/icons-material/Crop';
+import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaYoutube, FaSnapchat, FaTelegram, FaPinterest, FaGithub } from 'react-icons/fa';
+
 
 const ProfileInformation = () => {
     const { profileData, isLoading } = useSelector((state) => state.profile);
@@ -81,7 +83,23 @@ const ProfileInformation = () => {
 
         // setLoading(false);
     };
+    const platforms = [
+        { name: 'Facebook', icon: <FaFacebook sx={{ height: '10px' }} /> },
+        { name: 'Instagram', icon: <FaInstagram /> },
+        { name: 'Twitter', icon: <FaTwitter /> },
+        { name: 'LinkedIn', icon: <FaLinkedin /> },
+        { name: 'YouTube', icon: <FaYoutube /> },
+        { name: 'Snapchat', icon: <FaSnapchat /> },
+        { name: 'Telegram', icon: <FaTelegram /> },
+        { name: 'Pinterest', icon: <FaPinterest /> },
+        { name: 'GitHub', icon: <FaGithub /> },
 
+    ];
+    // Function to find a platform by name
+    const findPlatformByName = (name) => {
+        return platforms.find(platform => platform.name === name);
+    };
+    // console.log("platforms==>", platforms);
     return (
         <>
             {isLoading ?
@@ -162,15 +180,30 @@ const ProfileInformation = () => {
                                 <Typography variant="h6" sx={{ fontWeight: 'bold' }}>BIO</Typography>
                                 <Typography >At BYO Shami Inn in Manali, guests can choose from deluxe rooms and superior double rooms.
                                     Each room offers either a mountain view or a city view.</Typography>
+
                             </Stack>
                         </Grid>
                         <Divider />
                         <Grid item xs={12} sm={6} md={12}>
                             <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Social Information</Typography>
-                            <Stack >
-                                <Typography >At BYO Shami Inn in Manali, guests can choose from deluxe rooms and superior double rooms.
-                                    Each room offers either a mountain view or a city view.</Typography>
-                            </Stack>
+                            <Grid container justifyContent="center">
+                                {
+                                    profileData?.socials?.map((social) => {
+                                        return (<Grid key={social._id} item xs={1} sm={1} md={1}>
+                                            {/* {social.platform} */}
+                                            {findPlatformByName(social.platform).icon}
+                                        </Grid>)
+                                    })
+
+                                }
+                            </Grid>
+                            {/* <Stack> */}
+                            {/* {
+                                platforms.map((platform) => (
+                                    <span key={platform.name}>{platform.icon}</span>
+                                ))
+                            } */}
+
                         </Grid>
                         <Divider />
                         <Dialog
@@ -273,7 +306,7 @@ const ProfileInformation = () => {
                                         Cancel
                                     </Button>
                                     <Button
-                                     sx={{ float: 'right' }}
+                                        sx={{ float: 'right' }}
                                         variant="contained"
                                         startIcon={<CropIcon />}
                                         onClick={cropImage}

@@ -6,8 +6,8 @@ import { getToken } from './AuthService';
 let service = axios.create({
     baseURL: BASE_URL,
     headers: {
-        Authorization: getToken(),
-        'Content-Type': 'application/json'
+        'Authorization': getToken(),
+        'Content-Type': 'application/json',
     }
 });
 const getMyReceivedConnections = async (data) => {

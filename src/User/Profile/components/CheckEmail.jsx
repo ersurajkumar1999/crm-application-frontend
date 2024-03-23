@@ -1,12 +1,3 @@
-// import React from 'react'
-
-// const CheckEmail = () => {
-//     return (
-//         <div>CheckEmail</div>
-//     )
-// }
-
-// export default CheckEmail
 import React, { useState } from 'react';
 import {
     Grid, Typography, CardHeader, CardContent, Box, Accordion,
@@ -15,7 +6,7 @@ import {
 import { TbLayoutNavbarCollapse } from "react-icons/tb";
 import { useFormik } from "formik";
 import { userNameSchema } from '../../../schemas/FormSchemas';
-import { checkUsernameExists } from '../../../services/ApiService';
+import { checkUsernameExists } from '../../../services/CommonServices';
 
 const CheckEmail = ({ expanded, handlePanelChange }) => {
     const initialValues = {
