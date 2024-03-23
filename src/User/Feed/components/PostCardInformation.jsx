@@ -1,7 +1,7 @@
 
 import {
     Card, CardHeader, CardMedia, CardContent, CardActions,
-    Avatar, IconButton, Typography, Button, Link
+    Avatar, IconButton, Typography, Button, Link, Divider
 } from '@mui/material';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -64,11 +64,47 @@ export default function PostCardInformation({ posts }) {
                             </Typography>
                             {shouldShowMore(post.content) && (
 
-                                <Link href="#" onClick={() => handleShowMoreClick(index)} variant="contained" color="text.secondary" >
+                                <Link onClick={() => handleShowMoreClick(index)} component="button" variant="contained" color="text.secondary" >
                                     {isPostExpanded(index) ? "Show Less" : "Show More"}
                                 </Link >
                             )}
                         </CardContent>
+                        <CardActions disableSpacing>
+                            <Link
+                                sx={{ margin: '0 auto' }}
+                                color="text.secondary"
+                                component="button"
+                                variant="contained"
+                                onClick={() => {
+                                    console.info("I'm a button.");
+                                }}
+                            >
+                               4545
+                            </Link>
+                            <Link
+                                sx={{ margin: '0 auto' }}
+                                color="text.secondary"
+                                component="button"
+                                variant="contained"
+                                onClick={() => {
+                                    console.info("I'm a button.");
+                                }}
+                            >
+                                4 comments
+                            </Link>
+                            <Link
+                                 sx={{ margin: '0 auto' }}
+                                color="text.secondary"
+                                component="button"
+                                variant="contained"
+                                onClick={() => {
+                                    console.info("I'm a button.");
+                                }}
+                            >
+                                4 shares
+                            </Link>
+                        </CardActions>
+                        <Divider />
                         <CardActions disableSpacing>
                             <IconButton aria-label="add to favorites" sx={{ margin: '0 auto' }}>
                                 <FaRegHeart />

@@ -6,7 +6,7 @@ import {
 import { TbLayoutNavbarCollapse } from "react-icons/tb";
 import { useFormik } from "formik";
 import { userNameSchema } from '../../../schemas/FormSchemas';
-import { checkUsernameExists } from '../../../services/ApiService';
+import { checkUsernameExists } from '../../../services/CommonServices';
 
 const CheckUserName = ({ expanded, handlePanelChange }) => {
     const initialValues = {

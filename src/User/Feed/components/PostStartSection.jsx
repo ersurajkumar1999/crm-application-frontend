@@ -8,8 +8,9 @@ import {
 } from "@mui/material";
 import CreatePostSection from './CreatePostSection';
 import PageLoader from '../../../components/common/PageLoader';
-import { createPost } from '../../../services/ApiService';
-const PostStartSection = () => {
+import { createPost } from '../../../services/CommonServices';
+// import { createPost } from '../../../services/ApiService';
+const PostStartSection = ({ handlePostReset }) => {
     const [open, setOpen] = useState(false);
 
     const [state, setState] = useState({
@@ -32,12 +33,15 @@ const PostStartSection = () => {
         try {
             const response = await createPost(state);
             console.log("response==>", response);
+            if (response.status) {
+                handlePostReset(response?.data?.data ?? null);
+            }
         } catch (error) {
             console.log("error===>", error);
             setState({ ...state, isLoading: false });
         } finally {
             setOpen(false);
-            setState({ ...state, isLoading: false });
+            setState({ ...state, isLoading: false, content: null });
         }
     }
     return (
