@@ -47,7 +47,6 @@ function SignupPage() {
                     resetForm();
                     dispatch(setSuccessMessage(response.data.message));
                 } else {
-                    console.log("response==>", response.data.message);
                     dispatch(setErrorMessage(response.data.message));
                 }
             } catch (error) {
