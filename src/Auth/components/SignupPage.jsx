@@ -1,28 +1,20 @@
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import { Link } from 'react-router-dom';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import {
+    CircularProgress, Avatar, Button, CssBaseline,Container,
+    TextField,FormControlLabel, Checkbox, Grid, Box, Typography
+} from '@mui/material';
+
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { useFormik } from 'formik';
 import { signUpSchema } from '../../schemas/FormSchemas'; // Import your validation schema here
-// import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { userSignUp } from '../../services/ApiService';
-import { useState } from 'react';
-import { CircularProgress } from '@mui/material';
-// const theme = createTheme();
-
+import { useDispatch, useSelector } from 'react-redux';
+import { setErrorMessage, setSuccessMessage } from '../../store/slices/alertMessageSlice';
+import { ErrorMessage, SuccessMessage } from "../../components/common/alertMessages";
+import { Link } from 'react-router-dom';
 function SignupPage() {
-    const [alertMessages, setAlertMessages] = useState({
-        error: null,
-        success: null
-    });
+    const dispatch = useDispatch();
+    const { success, error } = useSelector((state) => state.alert);
+
     const initialValues = {
         firstName: 'Dev',
         lastName: 'suraj',
@@ -41,7 +33,6 @@ function SignupPage() {
         initialValues,
         validationSchema: signUpSchema,
         onSubmit: async (values, { setSubmitting }) => {
-            handleClearErrorMessage();
             const data = {
                 firstName: values.firstName,
                 lastName: values.lastName,
@@ -54,19 +45,19 @@ function SignupPage() {
                 const response = await userSignUp(data);
                 if (response.status) {
                     resetForm();
-                    setAlertMessages({ error: null, success: response.data.message });
+                    dispatch(setSuccessMessage(response.data.message));
                 } else {
-                    setAlertMessages({ error: response?.data?.message, success: null });
+                    console.log("response==>", response.data.message);
+                    dispatch(setErrorMessage(response.data.message));
                 }
             } catch (error) {
-                setAlertMessages({ error: error, success: null });
+                dispatch(setErrorMessage(error));
             } finally {
                 setSubmitting(false);
             }
         },
     });
-    const handleClearErrorMessage = () => setAlertMessages({ error: null, success: null });
-    console.log("alertMessages===>", alertMessages);
+
     return (
         <Container component="main" maxWidth="sm">
             <CssBaseline />
@@ -88,12 +79,8 @@ function SignupPage() {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
-                {alertMessages.error && (
-                    <ErrorMessage message={alertMessages.error} handlonCloseeMessage={handleClearErrorMessage} />
-                )}
-                {alertMessages.success && (
-                    <SuccessMessage message={alertMessages.success} handlonCloseeMessage={handleClearErrorMessage} />
-                )}
+                {success && <SuccessMessage />}
+                {error && <ErrorMessage />}
                 <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
