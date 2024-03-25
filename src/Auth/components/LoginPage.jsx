@@ -14,6 +14,7 @@ import { SuccessMessage, ErrorMessage } from '../../components/common/alertMessa
 import { login } from '../../store/slices/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { setErrorMessage, setSuccessMessage } from '../../store/slices/alertMessageSlice';
+import LoginWithGoogle from './LoginWithGoogle';
 const LoginPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -87,6 +88,7 @@ const LoginPage = () => {
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
+                <LoginWithGoogle />
                 {success && <SuccessMessage />}
                 {error && <ErrorMessage />}
                 <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>

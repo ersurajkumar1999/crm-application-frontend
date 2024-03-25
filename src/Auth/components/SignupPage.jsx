@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setErrorMessage, setSuccessMessage } from '../../store/slices/alertMessageSlice';
 import { ErrorMessage, SuccessMessage } from "../../components/common/alertMessages";
 import { Link } from 'react-router-dom';
+import LoginWithGoogle from './LoginWithGoogle';
 function SignupPage() {
     const dispatch = useDispatch();
     const { success, error } = useSelector((state) => state.alert);
@@ -78,6 +79,7 @@ function SignupPage() {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
+                <LoginWithGoogle />
                 {success && <SuccessMessage />}
                 {error && <ErrorMessage />}
                 <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
