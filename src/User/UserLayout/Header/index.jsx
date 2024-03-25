@@ -22,7 +22,7 @@ import { Link } from 'react-router-dom';
 import Sidebar from '../Sidebar';
 import { useState } from 'react';
 
-function ResponsiveAppBar() {
+function ResponsiveAppBar({handleUserLogout}) {
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [open, setOpen] = useState(false);
     const logo = "https://static.canva.com/web/images/12487a1e0770d29351bd4ce4f87ec8fe.svg";
@@ -143,7 +143,7 @@ function ResponsiveAppBar() {
                                     </ListItemIcon>
                                     <Typography marginLeft={'15px'}> Settings</Typography>
                                 </MenuItem>
-                                <MenuItem onClick={handleCloseUserMenu} >
+                                <MenuItem onClick={handleUserLogout} >
                                     <ListItemIcon >
                                         <IoLogOutOutline fontSize={'40px'} />
                                     </ListItemIcon>
@@ -154,7 +154,7 @@ function ResponsiveAppBar() {
                     </Toolbar>
                 </Container>
             </AppBar>
-            <Sidebar open={open} toggleDrawer={toggleDrawer} />
+            <Sidebar open={open} toggleDrawer={toggleDrawer} handleUserLogout={handleUserLogout}/>
         </>
     );
 }
