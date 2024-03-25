@@ -6,7 +6,7 @@ import { FaNetworkWired } from 'react-icons/fa';
 import { IoLogOutOutline } from 'react-icons/io5';
 import { MdChat, MdLocalPostOffice } from 'react-icons/md';
 import { Link } from 'react-router-dom';
-const Sidebar = ({ open, toggleDrawer }) => {
+const Sidebar = ({ open, toggleDrawer, handleUserLogout }) => {
 
     const profile = "https://i.pravatar.cc/150?img=3";
     const menus = [
@@ -39,7 +39,7 @@ const Sidebar = ({ open, toggleDrawer }) => {
                         </ListItem>
                     ))}
                     <ListItem disablePadding>
-                        <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemButton sx={{ pl: 4 }} onClick={handleUserLogout}>
                             <ListItemIcon sx={{ minWidth: '35px', fontSize: '20px' }}>
                                 <IoLogOutOutline />
                             </ListItemIcon>

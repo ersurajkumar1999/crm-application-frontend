@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getProfile } from '../../services/CommonServices';
 import { setLoading, setProfileData } from '../../store/slices/profileSlice';
+import { logout } from '../../store/slices/authSlice';
+import { setClearMessage } from '../../store/slices/alertMessageSlice';
 
 const UserLayout = () => {
     const navigate = useNavigate();
@@ -34,10 +36,14 @@ const UserLayout = () => {
             getProfileData();
         }
     }, [profileData])
+    const handleUserLogout = () => {
+        dispatch(logout());
+        dispatch(setClearMessage());
+    }
 
     return (
         <>
-            <Header />
+            <Header handleUserLogout={handleUserLogout}/>
             <Outlet />
         </>
     )
