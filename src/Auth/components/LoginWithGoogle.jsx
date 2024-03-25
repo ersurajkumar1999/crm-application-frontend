@@ -5,13 +5,17 @@ import { login } from '../../store/slices/authSlice';
 import { useDispatch } from 'react-redux';
 import { setErrorMessage, setSuccessMessage } from '../../store/slices/alertMessageSlice';
 import { useNavigate } from 'react-router-dom';
+import PageLoader from '../../components/common/PageLoader';
+import { useState } from 'react';
 
 const LoginWithGoogle = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(false);
     const handleLoginSuccess = async (credentialResponse) => {
         const accessToken = credentialResponse.credential;
         try {
+            setIsLoading(true);
             // Decode the access token to extract user information
             const decodedToken = jwtDecode(accessToken);
             const response = await UserLoginWithGoogle(decodedToken);
@@ -28,10 +32,15 @@ const LoginWithGoogle = () => {
             dispatch(setSuccessMessage(response?.data?.message));
             dispatch(login(response.data.data ?? null));
             navigate('/dashboard');
+            setIsLoading(false);
         } catch (error) {
             dispatch(setErrorMessage("Something is Wrong: error" + error));
+            setIsLoading(false);
         }
     };
+    if (isLoading) {
+        return <PageLoader isLoading={isLoading}/>
+    }
     return (
         <GoogleLogin
             onSuccess={handleLoginSuccess}
