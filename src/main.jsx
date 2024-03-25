@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const toggleDarkMode = false;
+console.log("import.meta.env==>", import.meta.env.VITE_APP_GOOGLE_CLIENT_ID);
 const theme = createTheme({
   typography: {
     fontFamily: ['Inter', 'Oswald', 'Rubik'].join(','),
@@ -51,7 +52,7 @@ root.render(
     <Provider store={store}>
       <BrowserRouter>
         <ToastContainer />
-        <GoogleOAuthProvider clientId="852188386915-egtkqj0hee3gg1amgds4dl79ont6kf7i.apps.googleusercontent.com">
+        <GoogleOAuthProvider clientId={import.meta.env.VITE_APP_GOOGLE_CLIENT_ID}>
           <ThemeProvider theme={theme}>
             <App />
           </ThemeProvider>
