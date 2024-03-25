@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { BASE_URL } from './config';
 import { successResponse } from './ApiResponse';
-import { AUTH_LOGIN, AUTH_SIGNUP, CHECK_USER_NAME_EXISTS, CREATE_POST, POSTS } from './API_ENDPOINTS';
+import { AUTH_LOGIN, AUTH_SIGNUP, LOGIN_WITH_GOOGLE} from './API_ENDPOINTS';
 let service = axios.create({
   baseURL: BASE_URL,
   headers: {
@@ -31,8 +31,17 @@ const userSignUp = async (data) => {
     return { status: false, data: error?.response?.data ?? message };
   }
 }
-
-
+const UserLoginWithGoogle = async (data) => {
+  try {
+    const response = await service.post(LOGIN_WITH_GOOGLE, data);
+    return successResponse(response);
+  } catch (error) {
+    const message = {
+      message: error?.message
+    }
+    return { status: false, data: error?.response?.data ?? message };
+  }
+}
 export {
-  userLogin, userSignUp
+  userLogin, userSignUp, UserLoginWithGoogle
 }

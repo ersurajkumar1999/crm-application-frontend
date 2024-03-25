@@ -1,17 +1,23 @@
 import { Alert } from '@mui/material'
-import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { setClearMessage } from '../../store/slices/alertMessageSlice';
 
-export const ErrorMessage = ({ message, handlonCloseeMessage }) => {
+export const ErrorMessage = () => {
+    const dispatch = useDispatch();
+
+    const { error } = useSelector((state) => state.alert);
     return (
-        <Alert fullWidth severity="error" onClose={handlonCloseeMessage}>
-            {message}
+        <Alert fullWidth severity="error" onClose={() => dispatch(setClearMessage())}>
+            {error}
         </Alert>
     )
 }
-export const SuccessMessage = ({message, handlonCloseeMessage }) => {
+export const SuccessMessage = () => {
+    const { success } = useSelector((state) => state.alert);
+    const dispatch = useDispatch();
     return (
-        <Alert severity="success" onClose={() => { handlonCloseeMessage }}>
-            {message}
+        <Alert severity="success" onClose={() => dispatch(setClearMessage())}>
+            {success}
         </Alert>
     )
 }

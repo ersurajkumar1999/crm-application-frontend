@@ -1,6 +1,7 @@
 // Users end points 
 const AUTH_LOGIN = "auth/login";
 const AUTH_SIGNUP = "auth/signup";
+const LOGIN_WITH_GOOGLE = 'auth/login-with-google';
 
 // Common end points
 const PROFILE = "profile";
@@ -31,7 +32,8 @@ const UPDATE_SOCIAL_MEDIA = 'update-social-media';
 
 // Exporting all variables at once
 export {
-    AUTH_LOGIN, AUTH_SIGNUP, PROFILE, CHECK_USER_NAME_EXISTS,
+    AUTH_LOGIN, AUTH_SIGNUP, LOGIN_WITH_GOOGLE,
+    PROFILE, CHECK_USER_NAME_EXISTS,
     POSTS, CREATE_POST, UPDATE_PROFILE, SEARCH_USER, FETCH_ALL_CHATS, USER_LIST_FOR_CONNECTIONS,
     MY_RECEIVED_CONNECTIONS, MY_SEND_CONNECTIONS, SEND_REQUEST, ACCEPT_REQUEST, UPDATE_SOCIAL_MEDIA
 };

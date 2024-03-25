@@ -6,7 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import { createTheme, ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux'
 import store from "./store";
-// import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -51,11 +51,11 @@ root.render(
     <Provider store={store}>
       <BrowserRouter>
         <ToastContainer />
-        {/* <GoogleOAuthProvider clientId="125939043148-pia42325rovru2vvoh2f7fjqho7c2djl.apps.googleusercontent.com"> */}
-        <ThemeProvider theme={theme}>
-          <App />
-        </ThemeProvider>
-        {/* </GoogleOAuthProvider> */}
+        <GoogleOAuthProvider clientId="852188386915-egtkqj0hee3gg1amgds4dl79ont6kf7i.apps.googleusercontent.com">
+          <ThemeProvider theme={theme}>
+            <App />
+          </ThemeProvider>
+        </GoogleOAuthProvider>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>

@@ -12,18 +12,17 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { userLogin } from '../../services/ApiService';
 import { SuccessMessage, ErrorMessage } from '../../components/common/alertMessages';
 import { login } from '../../store/slices/authSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setErrorMessage, setSuccessMessage } from '../../store/slices/alertMessageSlice';
+import LoginWithGoogle from './LoginWithGoogle';
 const LoginPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    
+    const { success, error } = useSelector((state) => state.alert);
+
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
-    const [alertMessages, setAlertMessages] = useState({
-        error: null,
-        success: null
-    });
     const initialValues = {
         email: "devsuraj@gmail.com",
         password: "devsuraj@",
@@ -40,7 +39,6 @@ const LoginPage = () => {
         initialValues,
         validationSchema: loginSchema,
         onSubmit: async (values, { setSubmitting }) => {
-            handleClearErrorMessage();
             const data = {
                 email: values.email,
                 password: values.password,
@@ -51,33 +49,25 @@ const LoginPage = () => {
                 const response = await userLogin(data);
                 // This is check Only Api Response 
                 if (!response.status) {
-                    setAlertMessages(prevState => ({ ...prevState, error: response?.data?.message }));
+                    dispatch(setErrorMessage(response.data.message));
                     return;
                 }
                 if (!response.data.status) {
-                    setAlertMessages(prevState => ({ ...prevState, error: response?.data?.message }));
+                    dispatch(setErrorMessage(response.data.message));
                     return;
                 }
-                setAlertMessages(prevState => ({
-                    ...prevState,
-                    success: response?.data?.message
-                }));
+                dispatch(setSuccessMessage(response?.data?.message));
                 resetForm();
                 dispatch(login(response.data.data ?? null));
                 navigate('/dashboard');
             } catch (error) {
-                setAlertMessages(prevState => ({ ...prevState, error: "Something is Wrong. Please try again" }));
-                // dispatch(setError(error))
+                dispatch(setErrorMessage("Something is Wrong: error"+ error));
             } finally {
                 setSubmitting(false);
             }
         },
     });
 
-    const handleClearErrorMessage = () => setAlertMessages({
-        error: null,
-        success: null
-    });
     return (
         <Container component="main" maxWidth="sm" >
             <Box
@@ -98,12 +88,9 @@ const LoginPage = () => {
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
-                {alertMessages.error && (
-                    <ErrorMessage message={alertMessages.error} handlonCloseeMessage={handleClearErrorMessage} />
-                )}
-                {alertMessages.success && (
-                    <SuccessMessage message={alertMessages.success} handlonCloseeMessage={handleClearErrorMessage} />
-                )}
+                <LoginWithGoogle />
+                {success && <SuccessMessage />}
+                {error && <ErrorMessage />}
                 <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                     <TextField
                         id="email"
