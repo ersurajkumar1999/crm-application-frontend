@@ -6,8 +6,11 @@ import { FaNetworkWired } from 'react-icons/fa';
 import { IoLogOutOutline } from 'react-icons/io5';
 import { MdChat, MdLocalPostOffice } from 'react-icons/md';
 import { Link } from 'react-router-dom';
-const Sidebar = ({ open, toggleDrawer, handleUserLogout }) => {
+import { useSelector } from 'react-redux';
 
+const Sidebar = ({ open, toggleDrawer, handleUserLogout }) => {
+    const { profileData } = useSelector((state) => state.profile);
+    console.log("profileData==>", profileData?.email);
     const profile = "https://i.pravatar.cc/150?img=3";
     const menus = [
         { name: 'Dashboard', link: '/dashboard', icon: <BiHome /> },
@@ -22,8 +25,8 @@ const Sidebar = ({ open, toggleDrawer, handleUserLogout }) => {
                 <Stack direction={`row`} gap={2} flex={true} alignItems={'center'} justifyItems={'center'} p={2}>
                     <Avatar alt="Remy Sharp" src={profile} />
                     <Stack>
-                        <Typography variant="body" fontWeight={'bold'}>Coding Maniac</Typography>
-                        <Typography variant="caption">codingmaniac01@gmail.com</Typography>
+                        <Typography variant="body" fontWeight={'bold'}>{profileData?.profile?.firstName} {profileData?.profile?.lastName}</Typography>
+                        <Typography variant="caption">{profileData?.email}</Typography>
                     </Stack>
                 </Stack>
                 <Divider />

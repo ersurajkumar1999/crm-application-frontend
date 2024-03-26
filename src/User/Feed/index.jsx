@@ -53,7 +53,7 @@ const Feed = () => {
         });
         if (node) observer.current.observe(node);
     }, [loading, data.length]);
-
+    console.log("posts==>",posts);
     const handlePostReset = (lastPost) => setState(prevState => ({ ...prevState, posts: [lastPost, ...posts] }));
     return (
         <Container sx={{ marginTop: 1 }} maxWidth="xl">

@@ -21,8 +21,11 @@ import { Divider, ListItemIcon, Stack } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Sidebar from '../Sidebar';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 function ResponsiveAppBar({handleUserLogout}) {
+    const { profileData } = useSelector((state) => state.profile);
+
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [open, setOpen] = useState(false);
     const logo = "https://static.canva.com/web/images/12487a1e0770d29351bd4ce4f87ec8fe.svg";
@@ -120,8 +123,8 @@ function ResponsiveAppBar({handleUserLogout}) {
                                 <Stack direction={`row`} gap={2} flex={true} alignItems={'center'} justifyItems={'center'} p={2}>
                                     <Avatar alt="Remy Sharp" src={profile} />
                                     <Stack>
-                                        <Typography variant="body" fontWeight={'bold'}>Dev Span</Typography>
-                                        <Typography variant="caption">spandev23@gmail.com</Typography>
+                                        <Typography variant="body" fontWeight={'bold'}>{profileData?.profile?.firstName} {profileData?.profile?.lastName}</Typography>
+                                        <Typography variant="caption">{profileData?.email}</Typography>
                                     </Stack>
                                 </Stack>
                                 <Divider />
