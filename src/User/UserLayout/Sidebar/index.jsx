@@ -18,6 +18,8 @@ const Sidebar = ({ open, toggleDrawer, handleUserLogout }) => {
         { name: 'Feed', link: '/feed', icon: <MdLocalPostOffice /> },
         { name: 'My Network', link: '/mynetwork', icon: <FaNetworkWired /> },
         { name: 'Chat', link: '/chat', icon: <MdChat /> },
+        { name: 'Like Mode', link: '/mode', icon: <MdChat /> },
+        { name: 'User List', link: '/user-list', icon: <MdChat /> },
     ]
     return (
         <Drawer open={open} onClose={() => toggleDrawer(false)}>
