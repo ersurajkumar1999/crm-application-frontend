@@ -21,6 +21,7 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
+import { getAllUsers } from '../../../services/UserServices';
 
 function createData(id, name, calories, fat, carbs, protein) {
     return {
@@ -233,6 +234,24 @@ export default function UserList() {
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+    const [state, setState] = React.useState({
+        posts: [],
+        data: [],
+        loading: true,
+        page: 1,
+        pageSize: 15,
+    });
+    React.useEffect(() => {
+        getUsers();
+    }, [state.page, state.pageSize])
+    const getUsers = async () => {
+        try {
+            const response = await getAllUsers({ page: state.page, pageSize: state.pageSize });
+            console.log("response==>", response);
+        } catch (error) {
+            console.log("error==>", error);
+        }
+    }
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
