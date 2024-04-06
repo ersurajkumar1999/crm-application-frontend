@@ -11,7 +11,6 @@ import ProfileInformation from './components/ProfileInformation';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProfile } from '../../services/CommonServices';
 import { setLoading, setProfileData } from '../../store/slices/profileSlice';
-
 const Profile = () => {
     // Inside your component
     const dispatch = useDispatch();
@@ -50,7 +49,7 @@ const Profile = () => {
                                 </Stack>
                             </Paper>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={8}>
+                        <Grid item xs={12} sm={6} md={8} style={{'display':'none'}}>
                             <Card>
                                 <Tabs
                                     value={selectedTab}

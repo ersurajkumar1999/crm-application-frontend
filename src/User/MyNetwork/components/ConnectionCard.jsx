@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import {
     Grid, Card, CardContent, CardHeader, Avatar, Typography, Button, IconButton,
     CardActions,
+    CircularProgress,
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
@@ -24,7 +25,7 @@ const StyledCardUp = styled('div')({
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
 });
-const ConnectionCard = ({ users, handleUserConnection }) => {
+const ConnectionCard = ({ isLoading, users, handleUserConnection }) => {
     const { profileData } = useSelector((state) => state.profile);
     const userId = profileData?._id;
     const checkFriendsRequest = (user) => {
@@ -63,12 +64,23 @@ const ConnectionCard = ({ users, handleUserConnection }) => {
                                     {
                                         checkFriendsRequest(user) ?
                                             <>
-                                                <Button size="small" sx={{ width: '50%', backgroundColor: '#a4a4a4' }} variant="contained" onClick={() => handleUserConnection(user._id, index)} startIcon={<AccessAlarmIcon />}> Pending</Button>
+                                                <Button size="small" disabled sx={{ width: '50%', backgroundColor: '#a4a4a4' }} variant="contained" onClick={() => handleUserConnection(user._id, index)} startIcon={<AccessAlarmIcon />}> Pending</Button>
                                                 <Button size="small" sx={{ width: '50%' }} variant="contained" ><AddIcon /> Connect</Button>
                                             </>
                                             :
                                             <>
-                                                <Button size="small" sx={{ width: '50%' }} variant="contained" onClick={() => handleUserConnection(user._id, index)}><PersonAddIcon /> Connect</Button>
+                                                <Button
+                                                    size="small"
+                                                    sx={{ width: '50%' }}
+                                                    variant="contained"
+                                                    disabled={user.isLoading}
+                                                    onClick={() => handleUserConnection(user._id, index)}
+                                                    startIcon={<PersonAddIcon />}
+                                                >
+                                                    {user.isLoading ? <CircularProgress size={24} /> : 'Connect'}
+                                                </Button>
+
+                                                {/* <Button size="small" sx={{ width: '50%' }} variant="contained" onClick={() => handleUserConnection(user._id, index)}><PersonAddIcon /> Connect</Button> */}
                                                 <Button size="small" sx={{ width: '50%' }} variant="contained" ><AddIcon /> Connect</Button>
                                             </>
                                     }
