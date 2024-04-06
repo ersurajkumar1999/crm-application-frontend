@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Typography, List, ListItem, ListItemText, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import { Close as CloseIcon, } from '@mui/icons-material';
-import PostImageList from './PostImageList';
-const FileUpload = () => {
+const FileUpload = ({state, setState}) => {
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
     const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -35,12 +34,6 @@ const FileUpload = () => {
         setOpenDeleteDialog(false);
         setDeleteFileIndex(-1);
     };
-
-    const handleCloneFile = (file) => {
-        setUploadedFiles([...uploadedFiles, { ...file }]);
-    };
-
-    // console.log("uploadedFiles===>", uploadedFiles);
     return (
         <>
             <div {...getRootProps()} style={dropzoneStyle}>
@@ -71,7 +64,6 @@ const FileUpload = () => {
                     </DialogActions>
                 </Dialog>
             </div>
-            <PostImageList />
         </>
     );
 };
@@ -80,7 +72,7 @@ const FileUpload = () => {
 const dropzoneStyle = {
     border: '2px dashed #cccccc',
     borderRadius: '4px',
-    padding: '20px',
+    padding: '100px',
     textAlign: 'center',
     cursor: 'pointer',
 };

@@ -16,8 +16,9 @@ const PostStartSection = ({ handlePostReset }) => {
     const [state, setState] = useState({
         status: 1,
         content: null,
+        titel: 'titel',
         isLoading: false,
-        titel: 'titel'
+        images: [],
     });
 
     const handleClickOpen = () => setOpen(true);
