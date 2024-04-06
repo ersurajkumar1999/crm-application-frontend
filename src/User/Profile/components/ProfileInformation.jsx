@@ -14,7 +14,7 @@ import Cropper from 'react-easy-crop'
 import { Cancel } from '@mui/icons-material';
 import CropIcon from '@mui/icons-material/Crop';
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaYoutube, FaSnapchat, FaTelegram, FaPinterest, FaGithub } from 'react-icons/fa';
-
+import defaultImage from "../../../assets/images/default-image.jpg";
 
 const ProfileInformation = () => {
     const { profileData, isLoading } = useSelector((state) => state.profile);
@@ -39,14 +39,8 @@ const ProfileInformation = () => {
     };
 
     const [open, setOpen] = useState(false);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
+    const handleClickOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
 
     // const { setAlert, setLoading } = useAuth();
@@ -126,7 +120,7 @@ const ProfileInformation = () => {
                                     width: '100%',
                                     marginTop: '-50%',
                                     border: '10px solid white'
-                                }} src={profileImage} alt="" />
+                                }} src={defaultImage} alt="" />
                             </Stack>
                             <Stack sx={{
                                 // height: '150px',

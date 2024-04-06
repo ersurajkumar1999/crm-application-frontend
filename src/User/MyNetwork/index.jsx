@@ -14,10 +14,31 @@ import { getUserList } from '../../services/CommonServices';
 import { useSelector } from 'react-redux';
 import ConnectionInformation from '../../components/ConnectionInformation';
 
+// import React, { useCallback, useState } from 'react';
+import { createRoot } from 'react-dom/client';
+import InfiniteScroll from 'react-infinite-scroller';
+
+
+async function fetchIssues(url) {
+    // const response = await fetch(url, {
+    //     method: 'GET',
+    //     headers: new Headers({
+    //         Accept: 'application/vnd.github.v3+json'
+    //     })
+    // });
+
+    // const links = parseLinkHeader(response.headers.get('Link'));
+    // const issues = await response.json();
+
+    // return {
+    //     links,
+    //     issues
+    // };
+}
+
 
 const MyNetwork = () => {
     const { profileData } = useSelector((state) => state.profile);
-    console.log("profileData===>", profileData);
     const navigate = useNavigate();
     // const { user } = useContext(AuthContext);
     const user = null;
@@ -31,7 +52,6 @@ const MyNetwork = () => {
     });
     const { users, data, loading, page, pageSize } = state;
     const observer = useRef(null);
-
     useEffect(() => {
         const userSearching = async () => {
             setState(prevState => ({
@@ -40,8 +60,12 @@ const MyNetwork = () => {
             }));
 
             try {
-                const { data } = await getUserList({ page, pageSize });
-                console.log("data========>", data);
+                const response = await getUserList({ page, pageSize });
+                if (!response.status) {
+                    return false;
+                }
+                const { data } = response;
+                data.data.forEach(obj => obj.isLoading = false);
                 setState(prevState => ({
                     ...prevState,
                     data: data.data,
@@ -49,14 +73,15 @@ const MyNetwork = () => {
                     loading: false
                 }));
             } catch (error) {
-                setState(prevState => ({
-                    ...prevState,
-                    loading: false
-                }));
+                console.log("error==>", error);
+            } finally {
+                setState(prevState => ({ ...prevState, loading: false }));
             }
         };
-
-        userSearching();
+        if (!observer.current) { // Check if API call has not been made yet
+            userSearching();
+            observer.current = true;
+        }
     }, [page, pageSize]);
 
     const lastUserElementRef = useCallback((node) => {
@@ -72,10 +97,13 @@ const MyNetwork = () => {
         });
         if (node) observer.current.observe(node);
     }, [loading, data.length]);
-
-
     const handleUserConnection = async (userId, index) => {
         try {
+            setState(prevState => {
+                const updatedUsers = [...prevState.users];
+                updatedUsers[index] = { ...updatedUsers[index], isLoading: true };
+                return { ...prevState, users: updatedUsers };
+            });
             const userInfo = {
                 _id: null,
                 requester: loginUserId,
@@ -85,25 +113,22 @@ const MyNetwork = () => {
                 updatedAt: new Date(),
                 __v: 0
             }
+            setState(prevState => {
+                const updatedUsers = [...prevState.users];
+                updatedUsers[index] = { ...updatedUsers[index], isLoading: true };
+                return { ...prevState, users: updatedUsers };
+            });
+
             const response = await sendRequest({ receiverId: userId });
             if (response.status) {
                 setState(prevState => {
-                    // Clone the array of users
                     const updatedUsers = [...prevState.users];
-
-                    // Clone the user object to update
-                    const updatedUser = { ...updatedUsers[index] };
-
-                    // Update friendRequestsReceived with the new request
+                    const updatedUser = { ...updatedUsers[index], isLoading: false };
                     updatedUser.friendRequestsReceived = [
                         ...updatedUser.friendRequestsReceived,
                         userInfo
                     ];
-
-                    // Update the user object in the array
                     updatedUsers[index] = updatedUser;
-
-                    // Return updated state
                     return {
                         ...prevState,
                         users: updatedUsers
@@ -113,12 +138,60 @@ const MyNetwork = () => {
         } catch (error) {
             console.log("error==>", error);
         }
-        console.log("handleUserConnection", userId);
     }
-    // constant
-    const headerSX = {
-        '& .MuiCardHeader-action': { mr: 0 }
-    };
+    console.log("users======>", users);
+
+
+
+
+
+
+
+
+
+
+
+
+    const [items, setItems] = useState([]);
+    const [nextPageUrl, setNextPageUrl] = useState(
+        'https://api.github.com/repos/facebook/react/issues'
+    );
+    const [fetching, setFetching] = useState(false);
+
+    const fetchItems = useCallback(
+        async () => {
+            return false;
+            if (fetching) {
+                return;
+            }
+
+            setFetching(true);
+
+            try {
+                const { issues, links } = await fetchIssues(nextPageUrl);
+
+                setItems([...items, ...issues]);
+
+                if (links.next) {
+                    setNextPageUrl(links.next.url);
+                } else {
+                    setNextPageUrl(null);
+                }
+            } finally {
+                setFetching(false);
+            }
+        },
+        [items, fetching, nextPageUrl]
+    );
+
+    const hasMoreItems = !!nextPageUrl;
+
+
+    const loader = (
+        <div key="loader" className="loader">
+            Loading ...
+        </div>
+    );
     return (
         <Container sx={{ marginTop: 1 }} maxWidth="xl">
             <Box py={5} display={`flex`} flexDirection={`column`} alignItems={`center`}>
@@ -127,11 +200,25 @@ const MyNetwork = () => {
                         <ConnectionInformation setState={setState} />
                     </Grid>
                     <Grid item xs={12} sm={6} md={8}>
-                        <Grid container spacing={3}>
+                        <InfiniteScroll
+                            loadMore={fetchItems}
+                            hasMore={hasMoreItems}
+                            loader={loader}
+                        >
+                            <ul>
+                                {items.map(item => (
+                                    <li key={item.id}>
+                                        <a href={item.url} target="_blank" rel="noopener">
+                                            {item.title}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </InfiniteScroll>
+                        {/* <Grid container spacing={3}>
                             <Grid item xs={12} sm={6} md={12}>
                                 <Card>
                                     <CardHeader
-                                        sx={headerSX}
                                         title={<Typography variant="h6" component="h6">Invitations</Typography>}
                                         action={<Button variant="contained" startIcon={<SettingsIcon />} onClick={() => navigate('/invitation-manager')}> Manage</Button>} // include the header action here
                                     />
@@ -139,19 +226,19 @@ const MyNetwork = () => {
                             </Grid>
                             <ConnectionCard users={users} handleUserConnection={handleUserConnection} />
                             <Grid item xs={12} ref={lastUserElementRef}>
-                                {
-                                    loading && (
-                                        <Stack spacing={1}>
-                                            <Skeleton variant="text" width="100%" sx={{ fontSize: '1rem' }} />
-                                            <Skeleton variant="circular" width={70} height={70} />
-                                            <Skeleton variant="rectangular" width="100%" height={60} />
-                                            <Skeleton variant="rounded" width="100%" height={60} />
-                                        </Stack>
-                                    )
-                                }
-                            </Grid>
+                            {
+                                loading && (
+                                    <Stack spacing={1}>
+                                        <Skeleton variant="text" width="100%" sx={{ fontSize: '1rem' }} />
+                                        <Skeleton variant="circular" width={70} height={70} />
+                                        <Skeleton variant="rectangular" width="100%" height={60} />
+                                        <Skeleton variant="rounded" width="100%" height={60} />
+                                    </Stack>
+                                )
+                            }
+                            </Grid> 
 
-                        </Grid>
+                        </Grid> */}
 
                     </Grid>
                 </Grid>

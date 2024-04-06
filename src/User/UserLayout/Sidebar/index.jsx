@@ -10,16 +10,15 @@ import { useSelector } from 'react-redux';
 
 const Sidebar = ({ open, toggleDrawer, handleUserLogout }) => {
     const { profileData } = useSelector((state) => state.profile);
-    console.log("profileData==>", profileData?.email);
     const profile = "https://i.pravatar.cc/150?img=3";
     const menus = [
-        { name: 'Dashboard', link: '/dashboard', icon: <BiHome /> },
-        { name: 'Profile', link: '/profile', icon: <CgProfile /> },
+        // { name: 'Dashboard', link: '/dashboard', icon: <BiHome /> },
+        // { name: 'Profile', link: '/profile', icon: <CgProfile /> },
         { name: 'Feed', link: '/feed', icon: <MdLocalPostOffice /> },
         { name: 'My Network', link: '/mynetwork', icon: <FaNetworkWired /> },
-        { name: 'Chat', link: '/chat', icon: <MdChat /> },
-        { name: 'Like Mode', link: '/mode', icon: <MdChat /> },
-        { name: 'User List', link: '/user-list', icon: <MdChat /> },
+        // { name: 'Chat', link: '/chat', icon: <MdChat /> },
+        // { name: 'Like Mode', link: '/mode', icon: <MdChat /> },
+        // { name: 'User List', link: '/user-list', icon: <MdChat /> },
     ]
     return (
         <Drawer open={open} onClose={() => toggleDrawer(false)}>

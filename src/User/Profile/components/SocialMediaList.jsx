@@ -20,7 +20,6 @@ import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaYoutube, FaSnapchat, 
 export default function SocialMediaList() {
     const dispatch = useDispatch();
     const { profileData } = useSelector((state) => state.profile);
-    console.log("profileDataprofileData==>", profileData);
     const headerSX = {
         '& .MuiCardHeader-action': { mr: 0 }
     };
