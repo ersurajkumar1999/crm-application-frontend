@@ -32,16 +32,9 @@ const CreatePostSection = ({ handleClose, handleSubmitPost, open, state, setStat
     };
 
     //images
-
-    const [imageBox, setImageBox] = useState(true);
-
-    const handleAddImages = () => {
-        setImageBox(true);
-    }
-
-    const handleCloseImageBox = () => {
-        setImageBox(false);
-    };
+    const [imageBox, setImageBox] = useState(false);
+    const handleAddImages = () => setImageBox(true);
+    const handleCloseImageBox = () => setImageBox(false);
 
     return (
         <Dialog

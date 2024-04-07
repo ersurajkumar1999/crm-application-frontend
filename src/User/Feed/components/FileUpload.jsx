@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Typography, List, ListItem, ListItemText, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import { Close as CloseIcon, } from '@mui/icons-material';
-const FileUpload = ({state, setState}) => {
+import { imageUpload } from '../../../services/CommonServices';
+const FileUpload = ({ state, setState }) => {
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
     const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -11,7 +12,16 @@ const FileUpload = ({state, setState}) => {
 
 
     const { getRootProps, getInputProps } = useDropzone({
-        onDrop: (acceptedFiles) => {
+        onDrop:async (acceptedFiles) => {
+        console.log(acceptedFiles);
+            try {
+                const response = await imageUpload({"images":acceptedFiles});
+                console.log("response", response);
+            } catch (error) {
+                console.log("Error getting profile", error);
+            }
+
+
             const filesWithPreview = acceptedFiles.map(file => Object.assign(file, {
                 preview: URL.createObjectURL(file)
             }));
@@ -19,6 +29,21 @@ const FileUpload = ({state, setState}) => {
             // Call your backend API endpoint to upload files
         },
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     const handleRemoveFile = (index) => {
         setDeleteFileIndex(index);
         setOpenDeleteDialog(true);
