@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Typography, List, ListItem, ListItemText, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import { Close as CloseIcon, } from '@mui/icons-material';
-import { imageUpload } from '../../../services/CommonServices';
+import { imageUpload } from '../../../services/ImageService';
 const FileUpload = ({ state, setState }) => {
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
@@ -12,10 +12,14 @@ const FileUpload = ({ state, setState }) => {
 
 
     const { getRootProps, getInputProps } = useDropzone({
-        onDrop:async (acceptedFiles) => {
-        console.log(acceptedFiles);
+        onDrop: async (acceptedFiles) => {
+            const formData = new FormData();
+            acceptedFiles.forEach(file => {
+                formData.append('images', file);
+            });
+            console.log("acceptedFiles", acceptedFiles);
             try {
-                const response = await imageUpload({"images":acceptedFiles});
+                const response = await imageUpload(formData);
                 console.log("response", response);
             } catch (error) {
                 console.log("Error getting profile", error);

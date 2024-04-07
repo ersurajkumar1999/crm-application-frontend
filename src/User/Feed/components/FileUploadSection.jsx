@@ -16,7 +16,7 @@ const FileUploadSection = ({ handleClose, handleSubmitPost, open, state, setStat
             maxWidth="100%"
         >
             <DialogTitle sx={{ m: 0, p: 2, fontWeight: 'bold', textAlign: 'center' }} id="customized-dialog-title">
-                Create post
+                Images Editor
             </DialogTitle>
             <IconButton
                 aria-label="close"

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {
     Avatar, Button, Divider, Grid, IconButton,
     TextField, Dialog, DialogActions, DialogContent,
@@ -10,9 +10,10 @@ import { red } from '@mui/material/colors';
 import { FaImages, FaLock, FaUnity } from 'react-icons/fa';
 import { MdPublic } from "react-icons/md";
 import FileUploadSection from './FileUploadSection';
-const CreatePostSection = ({ handleClose, handleSubmitPost, open, state, setState }) => {
-    const [anchorEl, setAnchorEl] = useState(null);
 
+const CreatePostSection = ({ handleClose, handleSubmitPost, open, state, setState }) => {
+    
+    const [anchorEl, setAnchorEl] = useState(null);
     const types = [
         { id: 0, name: "Only Me", icon: <FaLock style={{ marginRight: '5px' }} /> },
         { id: 1, name: "Anyone", icon: <MdPublic style={{ marginRight: '5px' }} /> },
