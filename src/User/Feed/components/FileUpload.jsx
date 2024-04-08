@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Typography, List, ListItem, ListItemText, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
-import { Close as CloseIcon, } from '@mui/icons-material';
+import { Typography, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import { imageUpload } from '../../../services/ImageService';
 const FileUpload = ({ state, setState }) => {
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -17,10 +16,12 @@ const FileUpload = ({ state, setState }) => {
             acceptedFiles.forEach(file => {
                 formData.append('images', file);
             });
+            formData.append('type', 'post');
             console.log("acceptedFiles", acceptedFiles);
             try {
                 const response = await imageUpload(formData);
-                console.log("response", response);
+                // setState({ ...state, images: response?.data?.data ?? [] });
+                setState(prevState => ({ ...prevState, images: [...prevState.images, ...response?.data?.data ?? []] }));
             } catch (error) {
                 console.log("Error getting profile", error);
             }
@@ -33,7 +34,6 @@ const FileUpload = ({ state, setState }) => {
             // Call your backend API endpoint to upload files
         },
     });
-
 
 
 
@@ -68,20 +68,6 @@ const FileUpload = ({ state, setState }) => {
             <div {...getRootProps()} style={dropzoneStyle}>
                 <input {...getInputProps()} />
                 <Typography variant="body1">Drag and drop files here or click to browse.</Typography>
-                <List style={fileListStyle}>
-                    {uploadedFiles.map((file, index) => (
-                        <ListItem key={index}>
-                            <img src={file.preview} alt={file.name} style={imagePreviewStyle} />
-                            <ListItemText primary={file.name} secondary={`Size: ${(file.size / 1024).toFixed(2)} KB`} />
-                            {file.dimensions && (
-                                <ListItemText primary={`Dimensions: ${file.dimensions.width}x${file.dimensions.height}`} />
-                            )}
-                            <IconButton aria-label="Remove" onClick={() => handleRemoveFile(index)}>
-                                <CloseIcon />
-                            </IconButton>
-                        </ListItem>
-                    ))}
-                </List>
                 <Dialog open={openDeleteDialog} onClose={handleCloseDialog}>
                     <DialogTitle>Delete File</DialogTitle>
                     <DialogContent>

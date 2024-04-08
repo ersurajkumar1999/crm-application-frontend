@@ -33,15 +33,20 @@ const FileUploadSection = ({ handleClose, handleSubmitPost, open, state, setStat
             <Divider />
             <DialogContent>
                 <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} md={state.images.length ? '6' : '12'}>
                         <FileUpload
                             state={state}
                             setState={setState}
                         />
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                        <PostImageList />
-                    </Grid>
+                    {state.images.length > 0 &&
+                        <Grid item xs={12} md={6}>
+                            <PostImageList
+                                state={state}
+                                setState={setState}
+                            />
+                        </Grid>
+                    }
 
                 </Grid>
             </DialogContent>
