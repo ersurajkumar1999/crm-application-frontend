@@ -55,9 +55,7 @@ export default function PostCardInformation({ posts }) {
                             title={(post?.createdBY?.profile?.firstName + " " + post?.createdBY?.profile?.lastName)}
                             subheader={CalculateDateTime(post.createdAt)}
                         />
-                        {
-                            post.images.length > 0 && <PostImageSlider images={post.images} />
-                        }
+                        
                         <CardContent>
                             <Typography variant="body2" sx={{ textAlign: 'justify' }} color="text.secondary">
                                 {shouldShowMore(post.content) && !isPostExpanded(index) ? `${post.content.split(' ').slice(0, MAX_CONTENT_LENGTH).join(' ')}...` : post.content}
@@ -69,6 +67,9 @@ export default function PostCardInformation({ posts }) {
                                 </Link >
                             )}
                         </CardContent>
+                        {
+                            post.images.length > 0 && <PostImageSlider images={post.images} />
+                        }
                         <CardActions disableSpacing>
                             <Link
                                 sx={{ margin: '0 auto' }}

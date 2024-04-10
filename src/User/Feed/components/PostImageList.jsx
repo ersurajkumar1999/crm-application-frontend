@@ -1,31 +1,27 @@
-import * as React from 'react';
-import { ImageList, ImageListItem, ImageListItemBar, ListSubheader, IconButton } from '@mui/material';
+import { ImageList, ImageListItem, ImageListItemBar, IconButton } from '@mui/material';
 
 import { MdDelete } from "react-icons/md";
 
-export default function PostImageList() {
+export default function PostImageList({ state, setState }) {
     return (
         <ImageList variant="masonry" cols={2} gap={8}>
-            {/* <ImageListItem key="Subheader" cols={3}>
-                <ListSubheader component="div">December</ListSubheader>
-            </ImageListItem> */}
-            {itemData.map((item) => (
-                <ImageListItem key={item.img}>
+            {state.images.map((item) => (
+                <ImageListItem key={item._id}>
                     <img
-                        srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                        src={`${item.img}?w=248&fit=crop&auto=format`}
-                        alt={item.title}
+                        srcSet={`${item.imageUrl}?w=480&fit=crop&auto=format&dpr=2 2x`}
+                        src={`${item.imageUrl}?tr=h-400,w-400,pr-true,fo-auto`}
+                        alt={item.imagePath}
                         loading="lazy"
                     />
                     <ImageListItemBar
-                        title={item.title}
-                        subtitle={item.author}
+                        title={item.imagePath}
+                        subtitle={'item.author'}
                         actionIcon={
                             <IconButton
                                 sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
                                 aria-label={`info about ${item.title}`}
                             >
-                                <MdDelete color='#fff'/>
+                                <MdDelete color='#fff' />
                             </IconButton>
                         }
                     />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {
     Avatar, Button, Divider, Grid, IconButton,
     TextField, Dialog, DialogActions, DialogContent,
@@ -7,12 +7,13 @@ import {
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 import { red } from '@mui/material/colors';
-import { FaLock } from 'react-icons/fa';
+import { FaImages, FaLock, FaUnity } from 'react-icons/fa';
 import { MdPublic } from "react-icons/md";
-import FileUpload from './FileUpload';
-const CreatePostSection = ({ handleClose, handleSubmitPost, open, state, setState }) => {
-    const [anchorEl, setAnchorEl] = useState(null);
+import FileUploadSection from './FileUploadSection';
 
+const CreatePostSection = ({ handleClose, handleSubmitPost, open, state, setState }) => {
+    
+    const [anchorEl, setAnchorEl] = useState(null);
     const types = [
         { id: 0, name: "Only Me", icon: <FaLock style={{ marginRight: '5px' }} /> },
         { id: 1, name: "Anyone", icon: <MdPublic style={{ marginRight: '5px' }} /> },
@@ -30,6 +31,11 @@ const CreatePostSection = ({ handleClose, handleSubmitPost, open, state, setStat
         const { name, value } = event.target;
         setState({ ...state, [name]: value });
     };
+
+    //images
+    const [imageBox, setImageBox] = useState(false);
+    const handleAddImages = () => setImageBox(true);
+    const handleCloseImageBox = () => setImageBox(false);
 
     return (
         <Dialog
@@ -110,10 +116,31 @@ const CreatePostSection = ({ handleClose, handleSubmitPost, open, state, setStat
                             onChange={handleChange}
                         />
                     </Grid>
+                </Grid>
+                <Grid container spacing={2}>
                     <Grid item xs={12} md={12}>
-                       <FileUpload />
+                        <Button
+                            onClick={handleClose}
+                            variant="contained"
+                            startIcon={<FaUnity />}
+                            title='Rewrite with AI'
+                        >
+                        </Button>
+                        <Button
+                            onClick={handleAddImages}
+                            variant="contained"
+                            startIcon={<FaImages />}
+                            title='Add Images'
+                            sx={{ marginLeft: 1 }}>
+                        </Button>
                     </Grid>
                 </Grid>
+                <FileUploadSection
+                    open={imageBox}
+                    handleClose={handleCloseImageBox}
+                    state={state}
+                    setState={setState}
+                />
             </DialogContent>
             <Divider />
             <DialogActions>

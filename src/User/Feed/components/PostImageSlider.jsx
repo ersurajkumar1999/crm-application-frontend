@@ -67,7 +67,8 @@ const PostImageSlider = ({ images }) => {
             <CardMedia
                 component="img"
                 height="194"
-                image="https://mui.com/static/images/cards/paella.jpg"
+                // image="https://mui.com/static/images/cards/paella.jpg"
+                image={image.imageUrl}
                 alt="Paella dish"
             />
         )
@@ -75,14 +76,14 @@ const PostImageSlider = ({ images }) => {
     const MultiImages = (images) => {
         return (
             <Slider {...settings}>
-                {data.map((item) => (
+                {images.map((item) => (
                     <Typography
                         sx={{
                             height: isSmallScreen ? '300px' : '500px',
                             width: '100%'
                         }}>
                         <img
-                            src={item}
+                            src={item.imageUrl}
                             alt=""
                             style={{ width: "100%", height: "100%" }}
                         />
@@ -94,7 +95,7 @@ const PostImageSlider = ({ images }) => {
     return (
         <>
             {
-                images.length == 1 ? (<SingelImage image={images[0]} />) : (<MultiImages images={images} />)
+                images.length > 0 ? (<SingelImage image={images[0]} />) : (<MultiImages images={images} />)
             }
         </>
     )

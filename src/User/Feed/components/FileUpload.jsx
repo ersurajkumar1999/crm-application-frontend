@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Typography, List, ListItem, ListItemText, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
-import { Close as CloseIcon, } from '@mui/icons-material';
-import PostImageList from './PostImageList';
-const FileUpload = () => {
+import { Typography, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import { imageUpload } from '../../../services/ImageService';
+const FileUpload = ({ state, setState }) => {
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
     const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -12,7 +11,22 @@ const FileUpload = () => {
 
 
     const { getRootProps, getInputProps } = useDropzone({
-        onDrop: (acceptedFiles) => {
+        onDrop: async (acceptedFiles) => {
+            const formData = new FormData();
+            acceptedFiles.forEach(file => {
+                formData.append('images', file);
+            });
+            formData.append('type', 'post');
+            console.log("acceptedFiles", acceptedFiles);
+            try {
+                const response = await imageUpload(formData);
+                // setState({ ...state, images: response?.data?.data ?? [] });
+                setState(prevState => ({ ...prevState, images: [...prevState.images, ...response?.data?.data ?? []] }));
+            } catch (error) {
+                console.log("Error getting profile", error);
+            }
+
+
             const filesWithPreview = acceptedFiles.map(file => Object.assign(file, {
                 preview: URL.createObjectURL(file)
             }));
@@ -20,6 +34,20 @@ const FileUpload = () => {
             // Call your backend API endpoint to upload files
         },
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     const handleRemoveFile = (index) => {
         setDeleteFileIndex(index);
         setOpenDeleteDialog(true);
@@ -35,31 +63,11 @@ const FileUpload = () => {
         setOpenDeleteDialog(false);
         setDeleteFileIndex(-1);
     };
-
-    const handleCloneFile = (file) => {
-        setUploadedFiles([...uploadedFiles, { ...file }]);
-    };
-
-    // console.log("uploadedFiles===>", uploadedFiles);
     return (
         <>
             <div {...getRootProps()} style={dropzoneStyle}>
                 <input {...getInputProps()} />
                 <Typography variant="body1">Drag and drop files here or click to browse.</Typography>
-                <List style={fileListStyle}>
-                    {uploadedFiles.map((file, index) => (
-                        <ListItem key={index}>
-                            <img src={file.preview} alt={file.name} style={imagePreviewStyle} />
-                            <ListItemText primary={file.name} secondary={`Size: ${(file.size / 1024).toFixed(2)} KB`} />
-                            {file.dimensions && (
-                                <ListItemText primary={`Dimensions: ${file.dimensions.width}x${file.dimensions.height}`} />
-                            )}
-                            <IconButton aria-label="Remove" onClick={() => handleRemoveFile(index)}>
-                                <CloseIcon />
-                            </IconButton>
-                        </ListItem>
-                    ))}
-                </List>
                 <Dialog open={openDeleteDialog} onClose={handleCloseDialog}>
                     <DialogTitle>Delete File</DialogTitle>
                     <DialogContent>
@@ -71,7 +79,6 @@ const FileUpload = () => {
                     </DialogActions>
                 </Dialog>
             </div>
-            <PostImageList />
         </>
     );
 };
@@ -80,7 +87,7 @@ const FileUpload = () => {
 const dropzoneStyle = {
     border: '2px dashed #cccccc',
     borderRadius: '4px',
-    padding: '20px',
+    padding: '100px',
     textAlign: 'center',
     cursor: 'pointer',
 };
