@@ -12,6 +12,8 @@ const CHECK_USER_NAME_EXISTS = "check-username-exists";
 const CREATE_POST = "post/create";
 const POSTS = "posts";
 
+const LIKE = "like";
+
 
 // user chat
 const SEARCH_USER = "search-users";
@@ -35,12 +37,13 @@ const IMAGE_UPLOAD = "image-upload";
 
 const USERS = 'users';
 
+export { POSTS, CREATE_POST, LIKE }
 
 // Exporting all variables at once
 export {
     AUTH_LOGIN, AUTH_SIGNUP, LOGIN_WITH_GOOGLE,
     PROFILE, CHECK_USER_NAME_EXISTS,
-    POSTS, CREATE_POST, UPDATE_PROFILE, SEARCH_USER, FETCH_ALL_CHATS, USER_LIST_FOR_CONNECTIONS,
+    UPDATE_PROFILE, SEARCH_USER, FETCH_ALL_CHATS, USER_LIST_FOR_CONNECTIONS,
     MY_RECEIVED_CONNECTIONS, MY_SEND_CONNECTIONS, SEND_REQUEST, ACCEPT_REQUEST, UPDATE_SOCIAL_MEDIA,
     USERS, IMAGE_UPLOAD
 };

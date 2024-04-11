@@ -10,6 +10,7 @@ import PostCardInformation from './components/PostCardInformation';
 import PostStartSection from './components/PostStartSection';
 import { getAllPost } from '../../services/CommonServices';
 import PreLoader from '../../components/common/PreLoader';
+import { postLike } from '../../services/PostServices';
 
 const Feed = () => {
     const theme = useTheme();
@@ -29,6 +30,7 @@ const Feed = () => {
         setState(prevState => ({ ...prevState, loading: true }));
         try {
             const { data } = await getAllPost({ page, pageSize });
+            data.data.forEach(obj => obj.isLoading = false);
             setState(prevState => ({
                 ...prevState,
                 data: data.data,
@@ -53,8 +55,31 @@ const Feed = () => {
         });
         if (node) observer.current.observe(node);
     }, [loading, data.length]);
-    console.log("posts==>",posts);
     const handlePostReset = (lastPost) => setState(prevState => ({ ...prevState, posts: [lastPost, ...posts] }));
+
+    const handlePostLike = async (postId, index) => {
+        setState(prevState => {
+            const updatedPosts = [...prevState.posts];
+            updatedPosts[index] = { ...updatedPosts[index], isLoading: true };
+            return { ...prevState, posts: updatedPosts };
+        });
+        try {
+            const response = await postLike({ postId });
+            if (response.status) {
+                setState(prevState => {
+                    const updatedPosts = [...prevState.posts];
+                    updatedPosts[index] = { ...updatedPosts[index], isLoading: false };
+                    updatedPosts[index].likes.push(response.data.data);
+                    return { ...prevState, posts: updatedPosts };
+                });
+            }
+
+
+        } catch (error) {
+            console.log("error==>", error);
+        }
+    }
+
     return (
         <Container sx={{ marginTop: 1 }} maxWidth="xl">
             <Box py={5} display={`flex`} flexDirection={`column`} alignItems={`center`}>
@@ -69,7 +94,7 @@ const Feed = () => {
                     <Grid item xs={12} sm={6} md={5}>
                         <PostStartSection handlePostReset={handlePostReset} />
                         <Stack spacing={1} sx={{ paddingTop: 1 }}>
-                            <PostCardInformation posts={posts} />
+                            <PostCardInformation posts={posts} handlePostLike={handlePostLike} />
                         </Stack>
                         <Grid container spacing={3} my={2} justifyContent="center">
                             <Grid item xs={12} md={12} ref={lastUserElementRef}>
