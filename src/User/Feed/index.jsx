@@ -79,6 +79,15 @@ const Feed = () => {
             console.log("error==>", error);
         }
     }
+    const handlePostUnLike = async (postId, index) => {
+        setState(prevState => {
+            const updatedPosts = [...prevState.posts];
+            updatedPosts[index] = { ...updatedPosts[index], isLoading: true };
+            return { ...prevState, posts: updatedPosts };
+        });
+        console.log("postId==>", postId);
+        console.log("index==>", index);
+    }
 
     return (
         <Container sx={{ marginTop: 1 }} maxWidth="xl">
@@ -94,7 +103,7 @@ const Feed = () => {
                     <Grid item xs={12} sm={6} md={5}>
                         <PostStartSection handlePostReset={handlePostReset} />
                         <Stack spacing={1} sx={{ paddingTop: 1 }}>
-                            <PostCardInformation posts={posts} handlePostLike={handlePostLike} />
+                            <PostCardInformation posts={posts} handlePostLike={handlePostLike} handlePostUnLike={handlePostUnLike} />
                         </Stack>
                         <Grid container spacing={3} my={2} justifyContent="center">
                             <Grid item xs={12} md={12} ref={lastUserElementRef}>

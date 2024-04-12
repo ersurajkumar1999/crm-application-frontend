@@ -21,7 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const MAX_CONTENT_LENGTH = 50;
 
-export default function PostCardInformation({ posts, handlePostLike }) {
+export default function PostCardInformation({ posts, handlePostLike, handlePostUnLike }) {
     const { profileData } = useSelector((state) => state.profile);
 
     const [expandedPosts, setExpandedPosts] = useState([]);
@@ -115,7 +115,7 @@ export default function PostCardInformation({ posts, handlePostLike }) {
                         </CardActions>
                         <Divider />
                         <CardActions disableSpacing>
-                            <IconButton disabled={post.isLoading} aria-label="add to favorites" sx={{ margin: '0 auto' }} onClick={() => handlePostLike(post._id, index)}>
+                            <IconButton disabled={post.isLoading} aria-label="add to favorites" sx={{ margin: '0 auto' }} onClick={() => handleCheckPostLiked(post) ? handlePostUnLike(post._id, index) : handlePostLike(post._id, index)}>
                                 {post.isLoading ? <CircularProgress color="secondary" size={24} /> : <>{handleCheckPostLiked(post) ? <BiSolidLike sx={{ color: red[500] }} /> : <BiLike />}</>}
                             </IconButton>
                             <IconButton aria-label="add to favorites" sx={{ margin: '0 auto' }}>
